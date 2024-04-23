@@ -131,7 +131,13 @@ format:
 
 -   Existem duas formas de passarmos o caminho de arquivo: **caminho absoluto** ou **caminho relativo**
 
--   O **caminho absoluto** especifica o local exato de um arquivo desde a raiz do sistema de arquivo
+## Caminho Absoluto
+
+-   O **caminho absoluto** especifica o local exato de um arquivo desde a raiz do sistema de arquivo.
+
+-   O diretório raiz é o que está no topo da hierarquia do sistema, isso significa que outros diretórios estão contidos nele.
+
+![Caminho Absoluto](Figuras/dir_geral.png)
 
 ```{r class.source="watch-out"}
 getwd()
@@ -139,9 +145,11 @@ getwd()
 
 -   Observe que o local de referência é a pasta "*Cadernos*", pois este é o caminho absoluto para a pasta onde esse aula foi produzida. Vamos voltar para a pasta "*Introducao_R*" utilizando o conceito de caminho r
 
+## Caminho Relativo
+
 -   O **caminho relativo** é especificado em relação ao diretório de trabalho atual ou a outro local de referência. Assim, se você quiser acessar alguma base de dados na pasta "*dados"* partindo da pasta"*Cadernos",* o caminho seria*:* `../dados/base_de_dados.formato`.
 
--   Nesse caso, `../` é o comando para voltar uma pasta dentro do caminho.
+-   Nesse caso, `../` é o comando para voltar uma pasta dentro do caminho e `./` representa a pasta/diretório atual.
 
 -   Caso você queira trocar o local referência da pasta "*caderno"* para a pasta"*Introducao_R* ", use o seguinte código:
 
@@ -319,6 +327,14 @@ getwd()
     -   Livrar-se da necessidade de controlar versões com arquivos como `analise.R`, `analise_v2.R`, `analise_v3.R`, `analise_final.R`, `analise_final_final.R`, `analise_final_revisada.R`
 
     -   Eliminar a preocupação de perder seus projetos devido a falhas no seu computador.
+
+# Atividade
+
+1.  Crie uma conta no [[Github]{.underline}](https://github.com/)
+
+2.  Faça a instalação do [[Git]{.underline}](https://git-scm.com/)
+
+3.  Crie um projeto
 
 # Referências
 
