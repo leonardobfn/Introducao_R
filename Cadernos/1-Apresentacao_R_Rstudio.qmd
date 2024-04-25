@@ -33,7 +33,7 @@ format:
 
 -   Diferentemente do R em que todas as versões são gratuitas, o RStudio disponibiliza versões gratuitas e versões pagas.
 
--   O [vs code](https://code.visualstudio.com/) é Outra IDE que permite utilizar códigos R.
+-   O [vs code](https://code.visualstudio.com/) é outra IDE que permite utilizar códigos R.
 
 # Instalação do R e RStudio
 
@@ -143,7 +143,7 @@ format:
 getwd()
 ```
 
--   Observe que o local de referência é a pasta "*Cadernos*", pois este é o caminho absoluto para a pasta onde esse aula foi produzida. Vamos voltar para a pasta "*Introducao_R*" utilizando o conceito de caminho r
+-   Observe que o local de referência é a pasta "*Cadernos*", pois este é o caminho absoluto para a pasta onde essa aula foi produzida. Vamos voltar para a pasta "*Introducao_R*" utilizando o conceito de caminho relativo
 
 ## Caminho Relativo
 
@@ -276,6 +276,40 @@ getwd()
 
 ![](Figuras/options.png)
 
+# PositCloud
+
+-   Plataforma online que utiliza o RStudio para auxiliar na análise de dados ou outras finalidades.
+
+-   Para acessá-la, clique [aqui](https://login.posit.cloud/login?redirect=%2F).
+
+-   Para criar um projeto:
+
+![](Figuras/posit.gif){width="100%"}
+
+# Git e GitHub
+
+-   Git é um sistema de controle de versão que permite rastrear as alterações no código durante o desenvolvimento de uma análise/software.
+
+-   Git é usado para gerenciar projetos de análise/software, controlar as versões do código e facilitar o trabalho colaborativo entre desenvolvedores.
+
+-   Cada cópia do repositório Git contém todo o histórico de revisões.
+
+-   Permite a criação de ramificações independentes para o desenvolvimento de novos recursos e a fusão posterior dessas ramificações.
+
+-   O Git também pode se conectar a um serviço de hospedagem e armazenar todas as versões de um código fora do seu computador; o mais utilizado atualmente se chama GitHub. Uma alternativa é o GitLab.
+
+-   GitHub oferece funcionalidades adicionais, como controle de acesso, rastreamento de problemas, integração contínua e colaboração eficiente.
+
+-   Desenvolvedores usam o GitHub para compartilhar código, colaborar em projetos e contribuir para repositórios de código aberto.
+
+![Ideia geral do funcionamento do Git](Figuras/git_ideia.png){width="100%"}
+
+-   Na prática, a utilização do Git e do GitHub tem dois principais benefícios:
+
+    -   Livrar-se da necessidade de controlar versões com arquivos como `analise.R`, `analise_v2.R`, `analise_v3.R`, `analise_final.R`, `analise_final_final.R`, `analise_final_revisada.R`
+
+    -   Eliminar a preocupação de perder seus projetos devido a falhas no seu computador.
+
 # Fluxo de Trabalho
 
 -   Aqui será apresentado um fluxo de trabalho básico que pode incrementado no decorrer do curso.
@@ -303,30 +337,6 @@ getwd()
 4.  **Compartilhe Seu Código e Dados:**
 
     -   Disponibilize seu código e dados em um repositório público (por exemplo, GitHub) ou em um formato acessível.
-
-# Git e GitHub
-
--   Git é um sistema de controle de versão que permite rastrear as alterações no código durante o desenvolvimento de uma análise/software.
-
--   Git é usado para gerenciar projetos de análise/software, controlar as versões do código e facilitar o trabalho colaborativo entre desenvolvedores.
-
--   Cada cópia do repositório Git contém todo o histórico de revisões.
-
--   Permite a criação de ramificações independentes para o desenvolvimento de novos recursos e a fusão posterior dessas ramificações.
-
--   O Git também pode se conectar a um serviço de hospedagem e armazenar todas as versões de um código fora do seu computador; o mais utilizado atualmente se chama GitHub. Uma alternativa é o GitLab.
-
--   GitHub oferece funcionalidades adicionais, como controle de acesso, rastreamento de problemas, integração contínua e colaboração eficiente.
-
--   Desenvolvedores usam o GitHub para compartilhar código, colaborar em projetos e contribuir para repositórios de código aberto.
-
-![Ideia geral do funcionamento do Git](Figuras/git_ideia.png){width="100%"}
-
--   Na prática, a utilização do Git e do GitHub tem dois principais benefícios:
-
-    -   Livrar-se da necessidade de controlar versões com arquivos como `analise.R`, `analise_v2.R`, `analise_v3.R`, `analise_final.R`, `analise_final_final.R`, `analise_final_revisada.R`
-
-    -   Eliminar a preocupação de perder seus projetos devido a falhas no seu computador.
 
 # Atividade
 
