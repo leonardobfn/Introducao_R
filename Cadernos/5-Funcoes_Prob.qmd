@@ -1,0 +1,198 @@
+---
+title: "Funções de Probabilidade"
+format: 
+    html:
+      toc: true
+      toc_depth: 3
+      number_sections: true
+      number-depth: 3
+      html-math-method: katex
+      toc-title: Sumário
+      smooth-scroll: true
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Definição
+
+-   Funções de probabilidade são funções matemáticas que descrevem a distribuição de probabilidade de uma variável aleatória.
+-   Elas atribuem uma probabilidade a cada possível resultado dessa variável aleatória.
+-   Existem diferentes tipos de funções de probabilidade, dependendo do tipo de variável aleatória em questão.
+-   **Função de probabilidade discreta**: Usada quando a variável aleatória é discreta, ou seja, pode assumir valores contáveis. Exemplos: Bernoulli, Binomial, Poisson
+-   **Função de densidade de probabilidade (PDF)**: Usada quando a variável aleatória é contínua, ou seja, pode assumir qualquer valor dentro de um intervalo. Exemplos: Normal (Guassiana), Exponencial e Uniforme
+-   Essas funções são fundamentais em estatística e teoria das probabilidades para entender e modelar o comportamento de variáveis aleatórias em diferentes contextos.
+
+# Em R
+
+-   Para cada distribuição de probabilidade existem quatro funções no R. Cada uma delas é chamada adicionando o seguinte prefixo ao nome da distribuição correspondente:
+
+    -   \- d - para a função de massa ou densidade.
+
+    -   \- p - para a função de distribuição (cumulativa).
+
+    -   \- q - para quantis, ou seja, para calcular o valor correspondente para a função de distribuição cumulativa dada uma probabilidade.
+
+    -   \- r-para gerar amostras aleatórias com a distribuição dada.
+
+| Discrete Distribution Name | Continuous Distribution Name |
+|----------------------------|------------------------------|
+| Binomial (binom)           | Normal (norm)                |
+| Negative binomial (nbinom) | Exponential (exp)            |
+| Geometric (geom)           | Uniform (unif)               |
+| Poisson (pois)             | Gama (gamma)                 |
+
+# Distribuição Binomial
+
+-   A distribuição binomial é usada para modelar o número de sucessos ($x$) em um número fixo de tentativas ($n$) independentes, onde cada tentativa tem a mesma probabilidade ($p$) de sucesso.
+
+$$
+P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}
+$$
+
+-   Suponha que estamos lançando uma moeda justa 10 vezes e queremos calcular a probabilidade de obter exatamente 4 caras.
+
+```{r}
+# Função dbinom() para calcular a probabilidade em uma distribuição binomial
+probabilidade <- dbinom(x=4, size = 10, prob = 0.5)
+print(probabilidade)
+
+```
+
+-   Suponha que estamos lançando uma moeda justa 10 vezes e queremos calcular a probabilidade de obter no máximo 4 caras.
+
+```{r}
+probabilidade <- pbinom(q=4, size = 10, prob = 0.5)
+print(probabilidade)
+```
+
+-   Simulando valores
+
+```{r}
+N = 20
+n = 1
+(x = rbinom(N,n,prob = 0.5))
+(table(x))
+```
+
+# **Distribuição de Poisson**
+
+-   A distribuição de Poisson modela a probabilidade de um número de eventos ($x$) ocorrer em um intervalo fixo de tempo ou espaço, dado um número médio ($\lambda$) de eventos que ocorrem nesse intervalo.
+
+$$
+P(X = x) = \frac{e^{-\lambda} \lambda^x}{x!}
+$$
+
+-   Suponha que em média 2 clientes entram em uma loja por minuto. Queremos calcular a probabilidade de exatamente 3 clientes entrarem na loja em um minuto específico.
+
+```{r}
+# Função dpois() para calcular a probabilidade em uma distribuição de Poisson
+probabilidade <- dpois(3, lambda = 2)
+print(probabilidade)
+
+```
+
+-   Suponha que em média 2 clientes entram em uma loja por minuto. Queremos calcular a probabilidade de até 3 clientes entrarem na loja em um minuto específico.
+
+```{r}
+probabilidade <- ppois(3, lambda = 2)
+print(probabilidade)
+```
+
+-   Simulando valores
+
+```{r}
+x <- rpois(n = 10, lambda = 2)
+table(x)
+```
+
+# Distribuição Normal
+
+-   A distribuição normal (gaussiana) é usada para modelar uma grande variedade de fenômenos com variáveis contínuas. É caracterizada por sua forma de sino e é completamente determinada por sua média e desvio padrão.
+
+$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2} \left(\frac{x - \mu}{\sigma}\right)^2}
+$$
+
+-   $x$ é a variável aleatória,
+
+-   $\mu$ é a média da distribuição,
+
+-   $\sigma$ é o desvio padrão da distribuição.
+
+-   Suponha que estamos analisando os resultados de um teste padronizado em que a pontuação média é 100 e o desvio padrão é 15. Queremos calcular a probabilidade de um aluno ter uma pontuação abaixo de 110.
+
+```{r}
+# Função pnorm() para calcular a probabilidade em uma distribuição normal
+probabilidade <- pnorm(110, mean = 100, sd = 15)
+print(probabilidade)
+
+```
+
+-   Suponha que estamos analisando os resultados de um teste padronizado em que a pontuação média é 100 e o desvio padrão é 15. Queremos calcular a probabilidade de um aluno ter uma pontuação entre 110 e 120.
+
+```{r}
+probabilidade <- pnorm(120, mean = 100, sd = 15) - pnorm(110, mean = 100, sd = 15)
+print(probabilidade)
+```
+
+-   Suponha que estamos analisando os resultados de um teste padronizado em que a pontuação média é 100 e o desvio padrão é 15. Queremos calcular a probabilidade de um aluno ter uma pontuação maior que 120.
+
+```{r}
+probabilidade <- pnorm(120, mean = 100, sd = 15,lower.tail = F) 
+print(probabilidade) # ou
+
+probabilidade <- 1-pnorm(120, mean = 100, sd = 15,lower.tail = T) 
+print(probabilidade)
+```
+
+-   Quantis
+
+```{r}
+qnorm(0.75,mean = 100,15)
+qnorm(0.09,mean = 100,15,lower.tail = F)
+```
+
+-   Simulando valores
+
+```{r}
+z = rnorm(1000,mean = 0,sd = 1)
+x1 = rnorm(10000,mean = 100,sd = 1)
+x2 = rnorm(1000,mean = 100,sd = 10)
+x3 = rnorm(1000,mean = 10,sd = 10)
+par(mfrow=c(2,2))
+hist(z);hist(x1);hist(x2);hist(x3)
+```
+
+-   $f(x)$
+
+```{r}
+# Parâmetros da distribuição normal
+mu <- 0  # Média
+sigma <- 1  # Desvio padrão
+
+# Valores para o eixo x
+x <- seq(-4, 4, length.out = 100)
+
+# Calculando os valores da densidade de probabilidade para os valores de x
+y <- dnorm(x, mean = mu, sd = sigma)
+
+# Plotando a curva da distribuição normal
+plot(x, y, type = "l", lwd = 2, col = "blue", 
+     main = "Curva da Distribuição Normal", 
+     xlab = "x", ylab = "Densidade de Probabilidade")
+
+```
+
+# Atividade
+
+-   Pesquisar sobre as distribuições: exponencial e uniforme
+
+    -   Elabore exemplos de uso dessas distribuições usando as funções em R apresentadas no exemplo da Normal
+
+    -   Calcule propbabilidades
+
+    -   Gere dessas distribuições para diferentes parâmetros
+
+# Referências

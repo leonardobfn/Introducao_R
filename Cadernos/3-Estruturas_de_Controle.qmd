@@ -396,6 +396,31 @@ print (i)
 }
 ```
 
+# Atividades
+
+1.  Considere:
+
+    1.  Gere número de -100 a 100. Pode usar a função `seq` ou `runif(200,-100,100)`
+
+    2.  Selecione \$n=100\$ da sequência
+
+    3.  Conte quantos são negativos e quantos são positivos
+
+2.  Abaixo está a tabuada da sequência de Fibonnacci até 9. Construa um códido para reproduzi-lá.\
+    ![](Figuras/fibo.png)
+
+3.  Considere o seguinte jogo (lançar moeda):
+
+    1.  Jogador 1: escolhe cara
+
+    2.  Jogador 2: escolhe coroa
+
+    3.  Jogue a moeda
+
+    4.  Se a moeda for cara, o jogador 1 ganha um ponto. O mesmo para o jogador 2
+
+    5.  Vence que fizer 20 pontos primeiro
+
 # Referências
 
 -   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
