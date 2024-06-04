@@ -1,0 +1,380 @@
+---
+title: "Funções de Probabilidade"
+format: 
+    html:
+      toc: true
+      toc_depth: 3
+      number_sections: true
+      number-depth: 3
+      html-math-method: katex
+      toc-title: Sumário
+      smooth-scroll: true
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Environments
+
+## Definição
+
+-   Ambientes (environments) em R são estruturas de dados que representam **espaços** onde objetos, como variáveis e funções, são associados a nomes.
+
+-   Você pode pensar em um ambiente como um conjunto de nomes, sem ordem implícita.
+
+# Noções Básicas
+
+-   No exemplo abaixo, estamos criando uma associação do símbolo `nome` ao valor `Leonardo`, que, por padrão, é guardada dentro do *global environment*.
+
+```{r}
+nome <- "Leonardo"
+globalenv()
+ls(globalenv())
+nome
+```
+
+-   Nesse caso, quando "chamarmos" o símbolo `nome` , o R vai procurar dentro desse *environment* um valor para devolver
+
+<!-- -->
+
+-   É possível criar novos *environments* com a função `new.env()` ou `rlang::env()`
+
+```{r}
+e1 <- rlang::env(
+  a = FALSE,
+  b = "a",
+  c = 2.3,
+  d = 1:3,
+)
+```
+
+-   A tarefa de um ambiente é associar, ou **vincular** , um conjunto de nomes a um conjunto de valores. 
+
+![](Figuras/env.png)
+
+```{r}
+novo_ambiente = new.env() # criando o ambiente
+novo_ambiente$nome <- "Nascimento" #criando objeto dentro do ambiente ou
+assign(nome,"Nascimento",envir = novo_ambiente ) #criando objeto dentro do ambiente
+nome
+get("nome",envir = novo_ambiente)
+```
+
+-   Note que o R inicia a busca no *global environment*.
+-   Use a função `rlang::env_print()` para mais informações sobre o ambiente
+
+```{r}
+rlang::env_print(novo_ambiente)
+```
+
+-   Você pode usar `env_names()`para obter um vetor de caracteres fornecendo as ligações atuais
+
+```{r}
+rlang::env_names(novo_ambiente)
+```
+
+-   Vamos criar outro objeto dentro de `novo_ambiente`.
+
+```{r}
+novo_ambiente$idade = 30
+rlang::env_print(novo_ambiente)
+```
+
+-   O ambiente atual ou `current_env()`é o ambiente no qual o código está sendo executado no momento.
+
+-   Quando você está experimentando de forma interativa, geralmente é o ambiente global, ou `global_env()`
+
+```{r}
+rlang::current_env()
+identical(rlang::global_env(), rlang::current_env())
+```
+
+### Outras formas de atribuições e verificações
+
+```{r}
+rlang::env_poke(novo_ambiente,"professor","Estatística")
+rlang::env_bind(novo_ambiente,Displina_1 = "R",Displina_1 = "AED")
+
+rlang::env_names(novo_ambiente)
+
+rlang::env_has(novo_ambiente, "Displina_1") # verificação
+rlang::env_has(novo_ambiente, "Displina_3")
+```
+
+# Relações entre Ambientes
+
+-   Todo ambiente tem um **pai** , outro ambiente
+
+-   O pai é usado para implementar o escopo léxico: se um nome não for encontrado em um ambiente, R procurará em seu pai (e assim por diante).
+
+-   Você pode definir o ambiente pai fornecendo um argumento sem nome para `rlang::env()`. Se você não fornecer, o padrão será o ambiente atual. 
+
+-   Você pode encontrar o pai de um ambiente com `rlang::env_parent()`
+
+```{r }
+#| eval=F
+novo_ambiente$idade = 30
+idade
+```
+
+-   Nesse caso, o R não vai encontrar um valor para associar, pois `novo_ambiente` é um *environment* "abaixo" do *global* na **hierarquia**, e o R só estende a sua busca para *environments* acima .
+
+```{r}
+a = 1 # criando um objeto no ambiente global
+get("a",envir = novo_ambiente) # buscar o objeto "a" no ambiente novo_ambiente
+```
+
+-   Para saber qual ambiente está acima, podemos usar a função `parent.env()`
+
+```{r}
+parent.env(novo_ambiente)
+```
+
+-   Portanto, quando o R não encontra um valor para um símbolo no *environment* em que está procurando, ele passa a procurar no próximo, **o *environment* para qual o primeiro está apontando**, chamado de *environment pai*. Assim, os *environments* se estruturam em uma hierárquia.
+
+```{r}
+novo_ambiente_2 = rlang::env(novo_ambiente) 
+parent.env(novo_ambiente_2)
+rlang::env_print(novo_ambiente_2)
+```
+
+```{r}
+rlang::env_parents(novo_ambiente_2)
+```
+
+-   Essa estrutura é muito útil na hora de utilizar funções
+
+-   Apenas um ambiente não possui pai: o ambiente **vazio**
+
+```{r}
+rlang::env_parents(novo_ambiente_2,last = rlang::empty_env())
+```
+
+```{r}
+novo_ambiente_3 = rlang::env(rlang::empty_env())
+rlang::env_parents(novo_ambiente_3)
+```
+
+# Ambientes Especiais
+
+-   A maioria dos ambientes não é criada por você (por exemplo, com `env()`), mas sim por R.
+
+-   Nesta seção, você aprenderá sobre os ambientes mais importantes, começando pelos ambientes de pacote. Em seguida, você aprenderá sobre o ambiente de função vinculado à função quando ela é criada e o ambiente de execução (geralmente) efêmero criado sempre que a função é chamada.
+
+## Ambientes de Pacotes
+
+-   Cada pacote anexado `library()`ou `require()`torna-se um dos pais do ambiente global.
+
+-   O pai imediato do ambiente global é o último pacote que você anexou e o pai desse pacote é o penúltimo pacote que você anexou
+
+![](Figuras/env_2.png)
+
+-   Se você seguir todos os pais, verá a ordem em que cada pacote foi anexado. Isso é conhecido como **caminho de pesquisa**
+
+-   Você pode ver os nomes desses ambientes com `base::search()`ou os próprios ambientes com `rlang::search_envs()`:
+
+```{r}
+search()
+rlang::search_envs()
+```
+
+### Problema da Função `attach`
+
+Concidere o objeto `cancer`
+
+```{r}
+dados = data.frame(cancer = c(1,0,1,0,1,0,1)) # 1 = paciente com cancer
+attach(dados)
+search()
+head(cancer)
+```
+
+```{r}
+require(survival)
+search()
+head(cancer)
+```
+
+-   É preciso ter cuidado ao nomear o objeto.
+
+## Ambiente de funções
+
+-   Uma função vincula o ambiente atual quando é criada. Isso é chamado de **ambiente de função.**
+
+-   Determina onde a função pode procurar variáveis não locais (variáveis não definidas dentro da própria função).
+
+```{r}
+
+# Definindo uma função no ambiente global
+f <- function(x,y) {
+  z <- x + y
+  return(z)
+}
+
+# Chamando a função
+resultado <- f(5,1)
+print(resultado)  
+environment(f) #ou
+rlang::fn_env(f)
+
+```
+
+-   Neste exemplo `f` é definida no ambiente global, portanto, seu ambiente de função é o ambiente global.
+
+## Ambiente de Execução
+
+-   Cada vez que uma função é chamada, um novo ambiente é criado para hospedar a execução. Isso é chamado de ambiente de execução e seu pai é o ambiente de função.
+
+-   Eles contêm variáveis locais e referências a variáveis em escopos superiores, como o ambiente global ou ambientes de funções encapsuladoras.
+
+-   Cada chamada de função tem seu próprio ambiente de execução, isolado dos ambientes de execução de outras chamadas da mesma função.
+
+-   É assim que R garante que uma função não sobrescreva nada que não deveria. Quaisquer objetos criados pela função são armazenados em um ambiente de tempo de execução seguro e afastado.
+
+```{r}
+# Definindo um valorno ambiente global
+x <- 10
+# Definindo uma função no ambiente global
+f <- function(y) {
+  z <- x + y
+  return(z)
+}
+
+# Chamando a função
+f(5)
+ 
+
+```
+
+-   Neste exemplo:
+
+    -   `f` é definida no ambiente global, portanto, seu ambiente de definição é o ambiente global.
+
+    -   Quando `f` é chamada com o argumento `5`, um novo ambiente de execução é criado.
+
+    -   `x` é procurado primeiro no ambiente de execução de `f`. Como não é encontrado, a busca continua no ambiente de definição (ambiente global), onde `x` é encontrado com o valor `10`.
+
+```{r}
+# Definindo um valorno ambiente global
+x <- 10
+# Definindo uma função no ambiente global
+f <- function(y) {
+  x <- 2
+  z <- x + y
+  return(z)
+}
+
+# Chamando a função
+f(5)
+```
+
+-   Neste exemplo:
+
+    -   `f` é definida no ambiente global, portanto, seu ambiente de definição é o ambiente global.
+
+    -   Quando `f` é chamada com o argumento `5`, um novo ambiente de execução é criado.
+
+    -   `x` é procurado primeiro no ambiente de execução de `f`, onde `x` é encontrado com o valor `2`.
+
+    -   Portanto, os cálculos realizados dentro das funções não modificam os objetos do *global*.
+
+-   Vamos capturar os ambientes
+
+```{r}
+f = function(y){
+    ENV = list(ran.in = rlang::current_env(), # execução
+         parent = rlang::env_parent(rlang::current_env()), # pai 
+         objects = ls.str(rlang::current_env())) # objetos no env de execução
+  return(ENV)
+}
+y = 2
+f(y=1)
+```
+
+-   Considere este outro exemplo
+
+```{r}
+
+a <- 1
+
+# Ambiente global
+# Ambiente de função da fun_externa
+
+fun_externa <- function() {
+  # Ambiente de execução da função fun_externa
+  # Ambiente de função da fun_interna
+  print(rlang::current_env())
+  b <- 2
+  
+  fun_interna <- function(d) {
+    # Ambiente de execução da fun_interna
+    print(rlang::env_parent(rlang::current_env()))
+    return(a + b + d)
+  }
+  
+  return(fun_interna)
+}
+
+# fun_externa é chamada e retorna fun_interna
+f <- fun_externa()
+f
+# fun_interna é chamada com argumento 3
+print(f(3))  # Imprime 6
+environment(fun_externa)
+```
+
+-   Capturando os ambientes
+
+```{r}
+fun_externa <- function() {
+  
+  funcao_interna <- function(a=1) {
+    list(ran.in = rlang::current_env(), 
+         parent = rlang::env_parent(rlang::current_env()), 
+         objects = ls.str(rlang::current_env()))
+  }
+  return(funcao_interna)
+}
+minha_funcao <- fun_externa()
+minha_funcao()
+```
+
+# Superatribuição
+
+-   A atribuição regular, `<-`sempre cria uma variável no ambiente atual.
+
+-   A superatribuição `<<-`nunca cria uma variável no ambiente atual, mas modifica uma variável existente encontrada em um **ambiente pai**.
+
+```{r}
+x <- 0
+f <- function() {
+  x <<- 1
+}
+f()
+x
+
+```
+
+```{r}
+create_counter <- function() {
+  count <- 0
+  function() {
+    count <<- count + 1
+    return(count)
+  }
+}
+
+counter <- create_counter()
+print(counter())  # Imprime 1
+print(counter())  # Imprime 2
+
+```
+
+# Referências
+
+-   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
+
+-   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+
+-   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)

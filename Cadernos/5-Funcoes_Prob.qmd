@@ -187,12 +187,55 @@ plot(x, y, type = "l", lwd = 2, col = "blue",
 
 # Atividade
 
--   Pesquisar sobre as distribuições: exponencial e uniforme
+1.  Pesquisar sobre as distribuições: exponencial e uniforme:
 
     -   Elabore exemplos de uso dessas distribuições usando as funções em R apresentadas no exemplo da Normal
 
     -   Calcule propbabilidades
 
     -   Gere dessas distribuições para diferentes parâmetros
+
+2.  A tabela abaixo mostra uma simulação de controle de estoque para 15 dias. Reproduza a tabela. Considere:
+
+    1.   Estoque inicial de 200
+
+    2.  Demanda $\sim$ Poisson$(50)$
+
+    3.  Se Prob = P(Demanda\>Estoque Final)\>0.10, então o estoque do dia seguinte é Prob $\times$ Estoque inicial(200) + Estoque Final do dia anterior
+
+    4.  Se Prob = P(Demanda\>Estoque Final)\>0.10 e Prob $\times$ Estoque inicial(200) + Estoque Final do dia anterior for maior que 200, então o estoque do dia seguinte é 200.
+
+```{r}
+#| echo: false
+
+mc.stock  = function(dias,Q){
+d = dias + 1
+#ss = seq(1,d,TT)
+dm = NULL
+stock = matrix(0,d,6)
+colnames(stock) = c("Dia","Estoque","Demanda","Demanda não atendida","Estoque Final","P(Demanda>Estoque)")
+stock[1,2] = Q     # estoque inicial
+stock[,1] = seq(1:d)
+
+i = 1
+while(i<d){
+stock[i,3] = rpois(1,50)
+dm[i] = stock[i,2]-stock[i,3];stock[i,4] = ifelse(dm[i]<0,abs(dm[i]),0)
+stock[i,5] = ifelse(dm[i]<0,0,dm[i])
+stock[i,6] = 1-ppois(stock[i,5],lambda = 50)
+#stock[i,7] =  ifelse(stock[i,5]==0,Q,ifelse(stock[i,5]<s,Q,0))
+#stock[i+1,2] = ifelse(stock[i,5]==0,Q,ifelse(stock[i,5]<s,Q+stock[i,5],stock[i,5]))
+stock[i+1,2] = ifelse(stock[i,6]>0.10,
+                      ifelse(round(stock[i,5]+Q*stock[i,6])>=Q,Q,
+                             round(stock[i,5]+Q*stock[i,6])),round(stock[i,5]))
+i = i+1
+}
+#stock[,2] = ifelse(stock[,2]>200,200,stock[,2])
+#stock[ss,6] = c(rep("sim",length(ss)))
+return(stock)
+}
+mc.stock(15,200) |> knitr::kable()
+
+```
 
 # Referências
