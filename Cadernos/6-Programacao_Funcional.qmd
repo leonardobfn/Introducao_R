@@ -1,0 +1,252 @@
+---
+title: "Programação Funcional"
+format: 
+    html:
+      toc: true
+      toc_depth: 3
+      number_sections: true
+      number-depth: 3
+      html-math-method: katex
+      toc-title: Sumário
+      smooth-scroll: true
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Definição
+
+## O que é paradigma de programação?
+
+-   Entende-se como paradigma uma forma de fazer algo. Ou seja, paradigma de programação é o nome que se dá a maneira como se programa, 
+
+-   São conjuntos de regras que guiam os desenvolvedores. Cada linguagem de programação é criada com base nessas regras.
+
+-   São como limites nas formas como as linguagens são usadas, orientando um estilo particular de programação. 
+
+-   Define a metodologia e os princípios que guiam a escrita de código
+
+## Programação funcional
+
+-   Toda linguagem de programação possui funções, então o que torna uma linguagem de programação funcional?
+
+-   Existem muitas definições sobre o que exatamente torna uma linguagem funcional, mas existem dois (entre outros) pontos comuns:
+
+    1.  As linguagens funcionais possuem **funções de primeira classe.**
+
+        -   Em R, isso significa que você pode fazer muitas das coisas com uma função que você pode fazer com um vetor: você pode atribuí-las a variáveis, armazená-las em listas, passá-las como argumentos para outras funções, criá-las dentro de funções e até mesmo retorná-los como resultado de uma função.
+
+    2.  Em linguagens funcionais exigem que as funções sejam **puras**
+
+        -   A saída depende apenas das entradas, ou seja, se você chamar novamente com as mesmas entradas, obterá as mesmas saídas.
+
+        -   A função não tem efeitos colaterais, como alterar o valor de uma variável global.
+
+-   *Estritamente falando, R não é uma linguagem* de programação funcional porque não exige que você escreva funções puras. No entanto, você certamente pode adotar um estilo funcional em partes do seu código.
+
+-   Aqui, podemos definir estilo funcional como:
+
+    -   Decompor um grande problema em partes menores e, em seguida, resolver cada parte com uma função ou combinação de funções.
+
+-   Ao usar um estilo funcional, você se esforça para decompor os componentes do problema em funções isoladas que operam de forma independente.
+
+-   Cada função isoladamente é simples e direta de entender; a complexidade é tratada compondo funções de várias maneiras.
+
+-   Existem três principais técnicas funcionais que ajudam a decompor problemas em partes menores:
+
+    -   Funções que recebem outras funções como argumentos. Usar funções para fazer loops. Funções ***functionals*** (funcionais)
+
+    -   Funções que criam funções. Funções ***factories***
+
+    -   Funções que recebem funções como entrada e produzem funções como saída. Normalmente modificam o funcionamento de uma função. Funções ***operators***
+
+-   Esses tipos de funções são chamados de **higher-order functions (funções de ordem superior** )
+
+![](Figuras/pf.png)
+
+# ***Functionals***
+
+-   Um ***functionals***é uma função que recebe uma função como entrada e retorna um vetor como saída.
+
+```{r}
+rf <- function(f,...) f(rnorm(100,...))
+rf(mean)
+rf(sum)
+```
+
+-   Funcional matemático como `integrate()`ou `optim()`.
+
+-   Um uso comum de funcionais é como alternativa aos loops for.
+
+## Pacote `purrr` 
+
+-   O funcional mais fundamental é `purrr::map()` . Ele pega um vetor e uma função, chama a função uma vez para cada elemento do vetor e retorna os resultados em uma lista. 
+
+-   Em outras palavras, `map(1:3, f)` é equivalente a `list(f(1), f(2), f(3))`.
+
+```{r}
+x = NULL
+y = 1:3
+for(i in 1:length(y)){
+  x[i] <- 2*y[i]
+}
+x
+```
+
+```{r}
+f = function(x){2*x}
+purrr::map(y,f)
+```
+
+-   A função do pacote base equivalente a `purr::map()`é `lapply()`.
+
+```{r}
+f = function(x){2*x}
+lapply(y,f)
+```
+
+-   `map()`retorna uma lista, o que a torna a mais geral da família de mapas.
+
+-   Mas é inconveniente retornar uma lista quando uma estrutura de dados mais simples serviria, então existem mais quatro variantes específicas: `map_lgl()`, `map_int()`, `map_dbl()`, e `map_chr()`
+
+```{r}
+require(purrr)
+head(mtcars)
+
+map_chr(mtcars, typeof) # character
+map_lgl(mtcars, is.double) # lógical
+map_int(mtcars, ~length(unique(x))) # inteiro
+#map_int(mtcars, function(x) length(unique(x))) # inteiro
+map_dbl(mtcars, mean) # double
+
+```
+
+![](Figuras/map.png)
+
+-   Todas as funções de `map` sempre retornam um vetor de saída do mesmo comprimento que a entrada, o que implica que cada chamada `.f` deve retornar um único valor.
+
+-   As funções do *map* também possuem atalhos para extrair elementos de um vetor
+
+-   Você pode usar um vetor de caracteres para selecionar elementos por nome, um vetor inteiro para selecionar por posição ou uma lista para selecionar por nome e posição.
+
+```{r}
+x <- list(
+  list(-1, x = 1, y = c(2), z = "a"),
+  list(-2, x = 4, y = c(5, 6), z = "b"),
+  list(-3, x = 8, y = c(9, 10, 11))
+)
+
+# Select by name
+map_dbl(x, "x")
+
+
+# Or by position
+map_dbl(x, 1)
+
+
+# Or by both
+map_dbl(x, list("y", 1))
+
+```
+
+```{r}
+#| eval: false
+
+# Erro se o componente não existir:
+map_chr(x, "z")
+#> Error: Result 3 must be a single string, not NULL of length 0
+```
+
+```{r}
+# Suprimir com um .default value
+map_chr(x, "z", .default = NA)
+
+```
+
+-   Listas aninhadas com JSON.
+
+```{r}
+dados_json <- '[
+  {"nome": "Alice", "idade": 25, "cidade": "São Paulo"},
+  {"nome": "Bob", "idade": 30, "cidade": "Rio de Janeiro"},
+  {"nome": "Charlie", "idade": 22, "cidade": "Belo Horizonte"}
+]'
+
+lista_pessoas <- rjson::fromJSON(dados_json)
+
+# Usar map para extrair os nomes de cada pessoa
+(nomes <- map_chr(lista_pessoas, "nome"))
+(idade <- map_dbl(lista_pessoas, 2))
+```
+
+-   O primeiro argumento for constante e você quiser variar um argumento diferente
+
+```{r}
+trims <- c(0, 0.1, 0.2, 0.5)
+x <- rcauchy(1000)
+
+map_dbl(trims, ~ mean(x, trim = .))#
+
+```
+
+-   Gerar variáveis aleatórias
+
+```{r}
+map(c(0,10,50), ~ rnorm(2,mean=.))
+```
+
+## Variações do *map* 
+
+### `map2` 
+
+-   `map()`é vetorizado em um único argumento, `.x`. Isso significa que ele varia apenas `.x` durante a chamada `.f` e todos os outros argumentos são transmitidos inalterados.
+
+-   Considere, por exemplo, encontrar uma média ponderada para uma lista de observações e uma lista de pesos
+
+```{r}
+obs <- list(c(1,2,3),c(1,5,6))
+wd <- list(c(1,1,1),c(4,5,6))
+map2_dbl(obs,wd,weighted.mean,na.rm=T)
+```
+
+![](Figuras/map2.png)
+
+### `pmap` 
+
+-   Você fornece uma única lista, que contém qualquer número de argumentos
+
+-   Na maioria dos casos, será uma lista de vetores de comprimento igual
+
+```{r}
+pmap(list(obs, wd), weighted.mean, na.rm = TRUE) #ou 
+pmap_dbl(list(obs, wd), weighted.mean, na.rm = TRUE)
+```
+
+![](Figuras/pmap1.png)
+
+-   Muitas vezes é conveniente ligar `pmap()`com um *data frame*
+
+-   Note os nomes dos argumentos da função `rnorn`
+
+```{r}
+args(rnorm)
+
+parametros = data.frame(
+  n = c(1L,2L,3L,4L),
+  mean = c(0,40,100,200),
+  sd = c(1,4,10,1)
+)
+
+pmap(parametros,rnorm)
+```
+
+![](Figuras/pmap2.png)
+
+# Referências
+
+-   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
+
+-   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+
+-   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
