@@ -1,5 +1,5 @@
 ---
-title: "Funções de Probabilidade"
+title: "Environments"
 format: 
     html:
       toc: true
@@ -15,7 +15,6 @@ execute:
   warning: false
 ---
 
-# Environments
 
 ## Definição
 
