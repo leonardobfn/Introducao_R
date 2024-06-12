@@ -1,0 +1,86 @@
+---
+title: "Programação Orientada a Objetos"
+format: 
+    html:
+      toc: true
+      toc_depth: 3
+      number_sections: true
+      number-depth: 3
+      html-math-method: katex
+      toc-title: Sumário
+      smooth-scroll: true
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Definição
+
+-   Nesta [Aula](https://leonardobfn.github.io/webpage/Cursos/Introducao_R/Cadernos/6-Programacao_Funcional.html) foram apresentados os conceitos de paradigma de programação e programação funcional
+
+-   Aqui vamos apresentar o paradigma de programação orientada a objetos
+
+-   Considere as figuras a seguir:
+
+    ![](Figuras/classe2.png)
+
+![](Figuras/classe.png)
+
+-   Uma classe é um conjunto de características e comportamentos que definem o conjunto de objetos pertencentes à essa classe.
+
+-   Classe em si é um conceito abstrato, como um molde, que se torna concreto através da criação de um objeto.
+
+-   Essa criação é denominada *instanciação da classe*, como se estivéssemos usando esse molde (classe) para criar um objeto.
+
+-   A programação orientada a objetos (POO) é um paradigma de programação que utiliza "objetos" na estruturação do código.
+
+-   Esses objetos combinam dados (atributos) e comportamento (métodos)
+
+    ![](Figuras/classe_instancia.png)
+
+-   Você cria um objeto de determinada classe e depois utiliza os métodos/funções que aquela classe permite.
+
+-   Portanto, os sistemas de orientação objetos permitem a criação de uma classe que define um objeto com atributos (dados/informações) e métodos que descrevam o que esse objeto pode realizar
+
+-   Em Python, por exemplo, isso é feito da seguinte forma:
+
+```{python}
+
+#|eval: false
+
+# Definição da classe 'Pessoa'
+class Pessoa:
+    # Método de inicialização
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+    
+    # Método para apresentar a pessoa
+    def apresentar(self):
+        print(f"Olá, eu sou {self.nome} e tenho {self.idade} anos.")
+
+# Instanciando objetos da classe 'Pessoa'
+pessoa1 = Pessoa("João", 30)
+pessoa2 = Pessoa("Maria", 25)
+
+# Chamando o método 'apresentar' para cada objeto
+pessoa1.apresentar()
+pessoa2.apresentar()
+```
+
+# Razões para usar orientação a objetos
+
+-   Em R, existem vários sistemas OOP para escolher. Aqui vamos considerar os sistemas S3 e S4.
+
+-   S3 é usado em toda a base R, por isso é importante dominá-lo se você deseja estender as funções da base R para trabalhar com novos tipos de entrada.
+
+-   S4 também é baseada em uma combinação de classes e métodos , oferecendo um sistema mais rigoroso e robusto em comparação com o sistema S3. Alguns objetos espaciais ( dados com georeferências) são objetos criados a partir de sistemas S4.
+
+# Referências
+
+-   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
+
+-   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+
+-   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
