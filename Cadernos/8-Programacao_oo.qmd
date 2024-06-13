@@ -45,37 +45,256 @@ execute:
 
 -   Em Python, por exemplo, isso é feito da seguinte forma:
 
-```{python}
+![](Figuras/py.png)
 
-#|eval: false
+# Sistemas POO em R
 
-# Definição da classe 'Pessoa'
-class Pessoa:
-    # Método de inicialização
-    def __init__(self, nome, idade):
-        self.nome = nome
-        self.idade = idade
-    
-    # Método para apresentar a pessoa
-    def apresentar(self):
-        print(f"Olá, eu sou {self.nome} e tenho {self.idade} anos.")
-
-# Instanciando objetos da classe 'Pessoa'
-pessoa1 = Pessoa("João", 30)
-pessoa2 = Pessoa("Maria", 25)
-
-# Chamando o método 'apresentar' para cada objeto
-pessoa1.apresentar()
-pessoa2.apresentar()
-```
-
-# Razões para usar orientação a objetos
-
--   Em R, existem vários sistemas OOP para escolher. Aqui vamos considerar os sistemas S3 e S4.
+-   Em R, existem vários sistemas POO para escolher. Aqui vamos considerar os sistemas S3 e S4.
 
 -   S3 é usado em toda a base R, por isso é importante dominá-lo se você deseja estender as funções da base R para trabalhar com novos tipos de entrada.
 
 -   S4 também é baseada em uma combinação de classes e métodos , oferecendo um sistema mais rigoroso e robusto em comparação com o sistema S3. Alguns objetos espaciais ( dados com georeferências) são objetos criados a partir de sistemas S4.
+
+-   A partir desses sistemas serão criadas as classes, os objetos e os métodos. .
+
+# Razões para usar POO
+
+-   POO permite utilizar o **polimorfismo, encapsulamento e herança** (definição adiante) para relacionar os métodos e as classes.
+
+-   Utilizando os conceitos de **polimorfismo, encapsulamento e herança,** essas relações podem ser estabelecidas por meiode **POO encapsulada ou POO funcional.**
+
+-   Na POO **encapsulada** :
+
+    -   métodos pertencem a objetos ou classes, e as chamadas de método normalmente se parecem com `object.method(arg1, arg2)`.
+
+    -   Isso é chamado de encapsulado porque o objeto encapsula dados (com campos) e comportamento (com métodos)
+
+-   Na OOP **funcional:**
+
+    -   os métodos pertencem a funções genéricas e as chamadas de método parecem chamadas de função comuns: `generic(object, arg2, arg3)`.
+
+    -   Isso é chamado de funcional porque visto de fora parece uma chamada de função normal e internamente os componentes também são funções.
+
+# Polimorfismo e Encapsulmento
+
+-   Considere o seguinte exemplo:
+
+```{r}
+diamonds <- ggplot2::diamonds
+class(diamonds$carat)
+class(diamonds$cut)
+summary(diamonds$carat)
+summary(diamonds$cut)
+```
+
+-   Note que **`summary()`** pode produzir diferentes resultados para variáveis ​​numéricas e fatoriais.
+
+-   A principal razão para usar OOP é **o polimorfismo** (literalmente: muitas formas). Polimorfismo significa que um desenvolvedor pode considerar a interface de uma função separadamente de sua implementação, possibilitando usar a mesma forma de função para diferentes tipos de entrada
+
+-   Um sistema OOP possibilita que qualquer desenvolvedor estenda a **interface** com implementações para novos tipos de entrada/classes.
+
+-   Isso está intimamente relacionado à ideia de **encapsulamento**: o usuário não precisa se preocupar com os detalhes de um objeto porque eles estão encapsulados por uma interface padrão.
+
+-   Portanto, **classe** define o tipo de objeto e os **métodos** descrevem o que esse objeto pode *fazer, ou seja, é uma implementação para uma classe específica.*
+
+# Objeto base e Objeto OO
+
+-   “Tudo o que existe em R é um objeto”. No entanto, embora tudo *seja* um objeto, nem tudo é orientado a objetos. 
+
+-   Na maioria das vezes, a distinção entre objetos e objetos orientados a objetos não é importante. Mas aqui precisamos entrar em detalhes, então usaremos os termos **objetos base** e **objetos OO** para distingui-los
+
+-   **Objetos POO** (Objetos para POO)
+
+-   **Objetos base** (Objetos não voltados a POO)
+
+-   Tecnicamente, a diferença entre objetos base e OO é que os objetos OO possuem um atributo de “classe”:
+
+```{r}
+attr(1:10, "class")
+
+attr(mtcars, "class")
+
+```
+
+-   Outra forma para saber a diferença entre um objeto base e um objeto OO, use `is.object()`ou `sloop::otype()`
+
+```{r}
+# A base object:
+is.object(1:10)
+
+sloop::otype(1:10)
+
+
+# An OO object
+is.object(mtcars)
+
+sloop::otype(mtcars)
+
+```
+
+-   Embora apenas objetos OO tenham um atributo de classe, todo objeto tem um **tipo base** :
+
+```{r}
+typeof(1:10)
+
+
+typeof(mtcars)
+
+```
+
+# Sistema S3
+
+-   S3 é o único sistema OO usado nos pacotes base e stats, e é o sistema mais comumente usado nos pacotes CRAN.
+
+-   Um objeto S3 é um tipo base com pelo menos o atributo `class`
+
+-   Por exemplo, pegue o `data.frame`. Seu tipo base é uma lista que possui os atributos `class`, `names` e `row.names`
+
+```{r}
+DF <- data.frame(A=c(1,2,3),B=c("a","b","c"),C=c(T,F,T))
+typeof(DF)
+attributes(DF)
+
+```
+
+-   O fato do objeto `DF`ter o atributo `class=data.frame`, permite que o R busque funções/métodos que podem ser aplicadas ao objeto `DF`
+
+-   Você pode obter o tipo base fazendo `unclass()`, que remove o atributo de classe, fazendo com que ele perca seu comportamento especial e se comporte como uma lista (objeto base)
+
+```{r}
+print(DF)
+print(unclass(DF))
+```
+
+## Criando Classes em S3
+
+-   O S3 não tem uma definição formal de classe: para tornar um objeto uma instância de uma classe basta definir o **atributo class** .
+
+-   Isso pode ser feito durante a criação com a função `structure()`ou após com a função `class<-()`:
+
+```{r}
+# Create and assign class in one step
+x <- structure(list(), class = "my_class")
+
+# Create, then set class
+x <- list()
+class(x) <- "my_class"
+```
+
+-   Exemplo:
+
+```{r}
+n = 10;LAMBDA = 50
+
+objeto = structure(
+  rpois(n,lambda=LAMBDA),
+  class = "minha_classe",
+  dist = "poisson"
+)
+objeto
+```
+
+## Funções Genéricas S3
+
+-   Uma função genérica define uma interface que utiliza uma implementação diferente dependendo da classe do objeto.
+-   A função de um genérico S3 é realizar o despacho de métodos, ou seja, encontrar a implementação específica para uma classe. 
+-   O envio do método é realizado por `UseMethod()` que todo genérico chama
+-   `UseMethod()` recebe dois argumentos: o nome da função genérica (obrigatório) e o argumento a ser usado para envio do método (opcional). 
+
+```{r}
+# Definição da função genérica 
+
+minha_funcao_generica <- function(x) {
+  # Chamando useMethod para despachar para métodos específicos
+  UseMethod("minha_funcao_generica")
+}
+
+# Definição de métodos específicos para diferentes classes
+minha_funcao_generica.default <- function(x) {
+  print("Método padrão chamado")
+}
+
+minha_funcao_generica.integer <- function(x) {
+  print("Método para números inteiros chamado")
+}
+
+minha_funcao_generica.character <- function(x) {
+  print("Método para caracteres chamado")
+}
+
+# Testando a função genérica com diferentes tipos de argumentos
+minha_funcao_generica(5)       # Chamará minha_funcao_generica.default
+minha_funcao_generica("Hello") # Chamará minha_funcao_generica.character
+minha_funcao_generica(TRUE)    # Chamará minha_funcao_generica.default
+
+```
+
+-   Para saber qual função foi utilizada:
+
+```{r}
+x = 5L
+sloop::s3_dispatch( minha_funcao_generica(x) )
+```
+
+-   `=>`indica o método que é chamado
+
+-   `*` indica um método que é definido, mas não chamado
+
+-   A classe “padrão” é uma **pseudoclasse** especial . Esta não é uma classe real, mas foi incluída para possibilitar a definição de um substituto padrão que é encontrado sempre que um método específico da classe não está disponível.
+
+```{r}
+x <- rnorm(100)
+sloop::s3_dispatch(mean(x))
+```
+
+-   Para saber os métodos associados :
+
+```{r}
+methods("summary")
+sloop::s3_methods_generic("summary") |> head()
+```
+
+-   Para sabermos se uma função é genérica, temos algumas funções: `utils::isS3stdGeneric()` e `sloop::ftype()`
+
+```{r}
+sloop::ftype(mean)
+sloop::ftype(data)
+```
+
+-   A função `sloop::ftype()` retorna um vetor de caracteres de comprimento 1 ou 2.
+
+-   Quando retorna apenas um valor, do qual não obtemos o resultado `generic`, significa que esta função não é genérica, como é o caso da função `data`.
+
+-   Quando há um retorno de dois valores, e um deles é `generic`, significa dizer que a função é genérica, em que o primeiro valor, representa o sistema POO, como é o caso da função `mean`.
+
+## Exemplo
+
+```{r}
+n = 10;LAMBDA = 50
+
+objeto = structure(
+  rpois(n,lambda=LAMBDA),
+  class = "minha_classe",
+  dist = "poisson"
+)
+objeto
+
+gerar = function(...){
+   x = rpois(n,lambda=LAMBDA)
+   class(x) = "minha_classe"
+   return(x)
+}
+
+summary(objeto)
+
+summary.minha_classe = \(x){
+  cat("O máximo é",max(x))
+}
+
+summary(objeto)
+summary(gerar(n,LAMBDA))
+
+```
 
 # Referências
 

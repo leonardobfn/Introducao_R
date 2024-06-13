@@ -79,7 +79,7 @@ rf(sum)
 
 -   Um uso comum de funcionais é como alternativa aos loops for.
 
-## Pacote `purrr` 
+## Pacote `purrr`
 
 -   O funcional mais fundamental é `purrr::map()` . Ele pega um vetor e uma função, chama a função uma vez para cada elemento do vetor e retorna os resultados em uma lista. 
 
@@ -196,9 +196,9 @@ map_dbl(trims, ~ mean(x, trim = .))#
 map(c(0,10,50), ~ rnorm(2,mean=.))
 ```
 
-## Variações do *map* 
+## Variações do *map*
 
-### `map2` 
+### `map2`
 
 -   `map()`é vetorizado em um único argumento, `.x`. Isso significa que ele varia apenas `.x` durante a chamada `.f` e todos os outros argumentos são transmitidos inalterados.
 
@@ -212,7 +212,7 @@ map2_dbl(obs,wd,weighted.mean,na.rm=T)
 
 ![](Figuras/map2.png)
 
-### `pmap` 
+### `pmap`
 
 -   Você fornece uma única lista, que contém qualquer número de argumentos
 
@@ -242,6 +242,40 @@ pmap(parametros,rnorm)
 ```
 
 ![](Figuras/pmap2.png)
+
+# Programação Paralela
+
+-   Muitos cálculos em R podem ser feitos mais rapidamente pelo uso de computação paralela. 
+
+-   Geralmente, a computação paralela é a execução simultânea de diferentes partes de uma computação maior em vários processadores ou núcleos de computação
+
+-   Os núcleos de um computador se referem às unidades de processamento que podem executar instruções independentes.
+
+![](Figuras/parallel.png)
+
+```{r}
+#| eval: false
+
+library(parallel)
+num_nucleos <- detectCores()
+nucleos = round(0.60*num_nucleos)
+
+f <- function(i) {
+  return(lm(Petal.Width ~  Species, data = iris))
+}
+
+require(snowfall)
+sfInit(parallel=TRUE, cpus=nucleos)
+sfExportAll() # exportar os objetos para todos os núcleos
+sfLibrary("nome_pacote") # exportar o pacote para todos os núcleos
+system.time(sfLapply(1:100000, fun=f))
+sfStop()
+system.time(
+for(i in 1:100000){
+  f(i)
+}
+)
+```
 
 # Referências
 
