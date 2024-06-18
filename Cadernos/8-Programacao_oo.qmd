@@ -269,6 +269,8 @@ sloop::ftype(data)
 
 ## Exemplo
 
+-   Aqui será definido um método para um genérico existente
+
 ```{r}
 n = 10;LAMBDA = 50
 
@@ -296,8 +298,127 @@ summary(gerar(n,LAMBDA))
 
 ```
 
-# Referências
+# Sistema S4
 
+-   S4 fornece uma abordagem formal para OOP funcional. As ideias subjacentes são semelhantes às do S3 , mas a implementação é muito mais rigorosa e faz uso de funções especializadas para:
+
+    -    Criação de classes `setClass()`
+
+    -   Genéricos `setGeneric()`
+
+    -   Métodos `setMethod()`
+
+## Definindo a Classe
+
+Para definir uma classe S4, use a função `setClass()`com três argumentos:
+
+-   O **nome** da classe . Por convenção, os nomes das classes S4 usam `UpperCamelCase`.
+
+-   Um vetor de caracteres nomeado que descreve os nomes e classes dos **slots** (campos). Por exemplo, uma pessoa pode ser representada por um nome (character) e uma idade (numérica): `c(name = "character", age = "numeric")`. A pseudoclasse `ANY`permite que um slot aceite objetos de qualquer tipo.
+
+-   Um **protótipo** , uma lista de valores padrão para cada slot. Tecnicamente, o protótipo é opcional
+
+```{=html}
+<!-- -->
+```
+-   Definindo a classe "Person" com os atributos name e age
+
+```{r}
+setClass("Person", 
+  slots = c(
+    name = "character", 
+    age = "numeric"
+  ), 
+  prototype = list(
+    name = NA_character_,
+    age = NA_real_
+  )
+)
+```
+
+-   Uma vez definida a classe, você pode construir novos objetos a partir da função `new()` com nome da classe e um valor para cada slot:
+
+```{r}
+leo <- new("Person", name = "Leo Nascimento", age = 32)
+leo@name # acessando os splots
+```
+
+## Funções Genéricas S4
+
+-   A função de um genérico é realizar o despacho de métodos, ou seja, encontrar a implementação específica para a combinação de classes passadas para o genérico.
+
+-   Para criar um novo genérico S4, use `setGeneric()`com uma função que chama `standardGeneric()`
+
+-   Por convenção, os novos genéricos S4 devem usar `lowerCamelCase`.
+
+```{r}
+setGeneric("myGeneric", function(x) standardGeneric("myGeneric"))
+```
+
+```{r}
+setGeneric("idade", function(x) standardGeneric("idade"))
+```
+
+-   Um genérico não é útil sem alguns métodos, e no S4 você define métodos com `setMethod()`.
+
+-   Existem três argumentos importantes: o nome do genérico, o nome da classe e o próprio método.
+
+```{r}
+
+#|eval:false
+
+setMethod("myGeneric", "minha_classe", function(x) {
+  # implementação
+})
+```
+
+-   Acessando o slot age da classe "Person"
+
+```{r}
+setMethod("idade", "Person", function(x) x@age)
+idade(leo)
+```
+
+-   Obs:
+
+    -   Para listar todos os métodos que pertencem a um genérico, ou que estão associados a uma classe, use `methods("generic")`ou `methods(class = "class")`; para encontrar a implementação de um método específico, use `selectMethod("generic", "class")`.
+
+    ```{r}
+    methods("idade")
+    methods(class = "Person")
+    ```
+
+-   Aqui será definido um método para um genérico existente: `show`
+
+-   Controla como o objeto aparece quando é impresso.
+
+-   Para definir um método para um genérico existente, primeiro você deve determinar os argumentos.
+
+-   Nesse caso, o argumento da função `show`:
+
+```{r}
+args("show")
+```
+
+-   Portanto: nosso método show precisa ter um único argumento `object`:
+
+```{r}
+leo
+setMethod(f = "show",
+          signature = "Person",
+          definition = function(object){
+            cat("Essa é a impressão da classe:",is(object)[1],"\n",
+                "Nome:",object@name,"\n",
+                "Idade:",object@age)
+          })
+leo
+```
+
+-   Referências
+
+```{=html}
+<!-- -->
+```
 -   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
 
 -   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
