@@ -302,7 +302,7 @@ summary(gerar(n,LAMBDA))
 
 -   S4 fornece uma abordagem formal para OOP funcional. As ideias subjacentes são semelhantes às do S3 , mas a implementação é muito mais rigorosa e faz uso de funções especializadas para:
 
-    -    Criação de classes `setClass()`
+    -   Criação de classes `setClass()`
 
     -   Genéricos `setGeneric()`
 
@@ -318,9 +318,8 @@ Para definir uma classe S4, use a função `setClass()`com três argumentos:
 
 -   Um **protótipo** , uma lista de valores padrão para cada slot. Tecnicamente, o protótipo é opcional
 
-```{=html}
 <!-- -->
-```
+
 -   Definindo a classe "Person" com os atributos name e age
 
 ```{r}
@@ -339,8 +338,23 @@ setClass("Person",
 -   Uma vez definida a classe, você pode construir novos objetos a partir da função `new()` com nome da classe e um valor para cada slot:
 
 ```{r}
-leo <- new("Person", name = "Leo Nascimento", age = 32)
-leo@name # acessando os splots
+maria <- new("Person", name = "Maria", age = 32)
+maria@name # acessando os splots
+```
+
+-   Outra forma de criar objetos\
+
+```{r}
+nota_aluno = setClass(
+  "nota_aluno",
+  slots = c(
+    nome = "character",
+    notas = "numeric"
+  )
+)
+
+leo = nota_aluno(nome = "Leo",notas = c(5,9))
+leo
 ```
 
 ## Funções Genéricas S4
@@ -352,6 +366,7 @@ leo@name # acessando os splots
 -   Por convenção, os novos genéricos S4 devem usar `lowerCamelCase`.
 
 ```{r}
+
 setGeneric("myGeneric", function(x) standardGeneric("myGeneric"))
 ```
 
@@ -365,8 +380,6 @@ setGeneric("idade", function(x) standardGeneric("idade"))
 
 ```{r}
 
-#|eval:false
-
 setMethod("myGeneric", "minha_classe", function(x) {
   # implementação
 })
@@ -376,7 +389,7 @@ setMethod("myGeneric", "minha_classe", function(x) {
 
 ```{r}
 setMethod("idade", "Person", function(x) x@age)
-idade(leo)
+idade(maria)
 ```
 
 -   Obs:
@@ -388,9 +401,9 @@ idade(leo)
     methods(class = "Person")
     ```
 
--   Aqui será definido um método para um genérico existente: `show`
+-   **Aqui será definido um método para um genérico existente**: `show`
 
--   Controla como o objeto aparece quando é impresso.
+-   `show` Controla como o objeto aparece quando é impresso.
 
 -   Para definir um método para um genérico existente, primeiro você deve determinar os argumentos.
 
@@ -400,10 +413,10 @@ idade(leo)
 args("show")
 ```
 
--   Portanto: nosso método show precisa ter um único argumento `object`:
+-   Portanto, nosso método show precisa ter um único argumento `object`:
 
 ```{r}
-leo
+maria # antes de criar o método
 setMethod(f = "show",
           signature = "Person",
           definition = function(object){
@@ -411,16 +424,58 @@ setMethod(f = "show",
                 "Nome:",object@name,"\n",
                 "Idade:",object@age)
           })
-leo
+maria # após criar o método
 ```
 
--   Referências
+-   Criando o gerérico "media" e o método "media" para a classe "nota_aluno
 
-```{=html}
-<!-- -->
+### Exemplo 1
+
+```{r}
+setGeneric("media",def = function(x) standardGeneric("media"))
+
+setMethod("media",signature = "nota_aluno",definition = function(x){
+  notas = x@notas
+  media = sum(notas)/length(notas)
+  return(media)
+})
+
+media(leo)
 ```
+
+-   Definindo a classe do resultdo de uma função e criando um método a partir da função genérica `summary`
+
+### Exemplo 2
+
+```{r}
+n = 10;LAMBDA = 50
+
+# criando a classe
+setClass(Class = "minha_classe_S4",
+         slots =  c(amostra = c("numeric"))
+         )
+
+
+# criando a função e definindo a classe do resultado
+gerar = function(...){
+   x = rpois(n,lambda=LAMBDA)
+   resultado = new(Class = "minha_classe_S4",amostra=x)
+   return(resultado)
+}
+
+(amostra = gerar(n,LAMBDA))
+
+
+setMethod("summary",signature = "minha_classe_S4",definition = function(object){
+  max(object@amostra)
+})
+
+summary(amostra)
+```
+
+# Referências
+
 -   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
-
+-   [A (Not So) Short Introduction to S4](https://cran.r-project.org/doc/contrib/Genolini-S4tutorialV0-5en.pdf)
 -   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
-
 -   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
