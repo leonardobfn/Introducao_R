@@ -1,0 +1,40 @@
+---
+title: "Importação e Exportação de base de dados"
+format: 
+    html:
+      toc: true
+      toc_depth: 3
+      number_sections: true
+      number-depth: 3
+      html-math-method: katex
+      toc-title: Sumário
+      smooth-scroll: true
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Introdução
+
+-   Para a exploração de dados, é importante saber como carregar conjuntos de dados no RStudio antes de começarmos a trabalhar.
+
+-   Neste capítulo, aprenderemos as diferentes maneiras de carregar e exportar dados em uma sessão do RStudio. ,
+
+-   Antes de qualquer tipo de processamento, há quatro aspectos a considerar, independentemente do tipo de dados com que um analista se depara ou que tipo de análise vai ser efetuada.
+
+    -   **Obtenção**: embora os dados estejam em todo o lado, a sua obtenção pode variar entre algo tão simples como receber um ficheiro tabulado com toda a informação a algo avançado como a programação de um guião automático que recolhe a informação.
+
+    -   **Fiabilidade**: a própria fonte de dados deve ser posta em causa. Será que estamos a obter os dados da fonte original? Quando nós próprios geramos os dados, o que pode está errado? Todas as fontes de dados têm de ser examinadas em profundidade para verificar o seu grau de fiabilidade e detectar possíveis imprecisões.
+
+    -   **Armazenamento**: por vezes, e cada vez com mais frequência, a quantidade de dados é tão grande que não cabem nem mesmo no maior disco rígido. Esta é a primeira razão para adotar soluções online, onde as vantagens de trabalhar na nuvem superam os problemas de armazenamento.
+
+    -   **Processamento**: mesmo quando o volume não é tão grande e pode ser armazenado num computador, é frequente que a memória RAM fique sobrecarregada. Por exemplo, uma base de dados de 10 GB num único ficheiro pode ser armazenada no disco rígido de qualquer computador, mas mas esse ficheiro não pode ser totalmente carregado na memória RAM, uma vez que a maioria dos computadores não têm normalmente mais de 8GB de RAM.
+
+-   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
+
+-   [A (Not So) Short Introduction to S4](https://cran.r-project.org/doc/contrib/Genolini-S4tutorialV0-5en.pdf)
+
+-   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+
+-   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
