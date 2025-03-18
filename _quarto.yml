@@ -3,3 +3,10 @@ project:
 
 
 
+
+babelquarto:
+  languagecodes:
+  - name: pt
+    text: "Version in pt"
+  mainlanguage: 'pt'
+lang: pt

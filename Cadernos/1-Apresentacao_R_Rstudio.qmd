@@ -1,5 +1,6 @@
 ---
 title: "Apresentação do R e Rstudio"
+lang: pt   
 format: 
     html:
       toc: true
@@ -9,6 +10,7 @@ format:
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+bibliography: references.bib
 ---
 
 # R
@@ -139,6 +141,8 @@ format:
 
 ![Caminho Absoluto](Figuras/dir_geral.png)
 
+-   `getwd()` é uma forma abreviada de dizer *get working directory* (me diga qual a pasta de trabalho atual).
+
 ```{r class.source="watch-out"}
 getwd()
 ```
@@ -184,7 +188,23 @@ getwd()
 
     2.  Ao criar scripts ou projetos em R, é uma boa prática **usar caminhos relativos**, pois isso torna o código mais portátil e facilita a colaboração. Além disso, evita problemas quando você compartilha seu código com outros ou move seu projeto para um novo sistema operacional.
 
-    3.  A última pequena diferença é o local para onde `~`aponta. `~`é um atalho conveniente para o seu diretório inicial. No Windows, ele aponta para o diretório de documentos.
+    3.  A última pequena diferença é o local para onde `~`aponta. `~`é um atalho conveniente para o seu diretório inicial. No Windows, ele aponta para o diretório de documentos. undefined
+
+### Tabela 1: Localização de pastas no Linux
+
+| Nome fantasia    | Localização real          |
+|------------------|---------------------------|
+| Pasta pessoal    | `/home/estudante` ou `~/` |
+| Área de trabalho | `/home/estudante/Desktop` |
+| Pendrive         | `/media/RotuloDoPendrive` |
+
+### Tabela 2: Localização de pastas em versão recente do Windows
+
+| Nome fantasia    | Localização real                               |
+|------------------|------------------------------------------------|
+| Pasta pessoal    | `C:/Users/estudante/Meus documentos` ou `~/`   |
+| Área de trabalho | `C:/Users/estudante/Desktop` ou `~/../Desktop` |
+| Pendrive         | `F:/` (ou outra letra)                         |
 
 -   Nesses casos, criar projetos no R é uma prática recomendada e traz vários benefícios para a organização, colaboração e reprodutibilidade do trabalho
 
@@ -310,6 +330,67 @@ getwd()
 
     -   Eliminar a preocupação de perder seus projetos devido a falhas no seu computador.
 
+# Pacotes
+
+-   É muito provável que alguém já tenha resolvido o problema em que você está trabalhando, e você pode se beneficiar do trabalho deles baixando o pacote correspondente.
+
+-   Um pacote reúne código, dados e documentação, proporcionando um método fácil de compartilhamento com outros usuários.
+
+![](Figuras/rpackage.jpg){fig-align="center" width="499"}
+
+## Instalação
+
+-   O R é construído como um conjunto de bibliotecas/pacotes voltadas para diferentes aplicações;
+
+-   Todos esses pacotes (com a respectiva documentação) podem ser facilmente baixados e instalados a partir do repositório CRAN.
+
+-   No entanto, muitas vezes, durante a programação, é necessário um pacote adicional para o nosso projeto. O RStudio permite baixar e instalá-lo através da função `install.packages("nome_do_pacote")`;
+
+-   Por exemplo, para instalar o pacote ggplot2 [@ggplot2]: `install.packages("ggplot2")`. Dessa forma, o pacote ggplot2 e os dependentes são automaticamente instalados;
+
+-   Para atualizar os pacotes: **Tools \> Check for Package Updates...**
+
+-   Para instalar pacotes do GitHub \[@\]: `devtools::install_github("username/packagename")` . Esse comando irá instalar o pacote que está na página `github.com/username/packagename`
+
+## Carregar
+
+-   Após instalado, o pacote é carregado na atual sessão através do comando `library(ggplot2)` ;
+
+-   Outra forma é utilizar: `ggplot2::nome_do_comando`. Nesse caso, não precisa carregar o pacote na sessão
+
+# Solicitando ajuda
+
+```{r eval=FALSE}
+# Ver todos os pacotes instalados
+library()
+
+# Ver pacotes atualmente carregados
+search()
+
+# Fornece detalhes sobre o conteúdo de um pacote
+help(package = "nome_do_pacote")
+
+# Fornecer detalhes sobre a base de dados "diamonds" que está dentro do pacote "ggplot2"
+
+help(diamonds, package="ggplot2")
+
+# Fornecer detalhes sobre o uso da função "mean" que está dentro do pacote base
+
+help(mean)
+?mean
+
+# Listar as vinhetas/tutorias disponíveis para um pacote específico
+vignette(package = "nome_do_pacote")
+
+# Visualizar uma vinheta específica
+vignette("nome_da_vinheta")
+
+# Visualizar todas as vinhetas disponíveis no seu computador
+vignette()
+
+
+```
+
 # Fluxo de Trabalho
 
 -   Aqui será apresentado um fluxo de trabalho básico que pode incrementado no decorrer do curso.
@@ -338,18 +419,103 @@ getwd()
 
     -   Disponibilize seu código e dados em um repositório público (por exemplo, GitHub) ou em um formato acessível.
 
-# Atividade
+# Escrevendo o código
 
-1.  Crie uma conta no [[Github]{.underline}](https://github.com/)
+-   Ao escrever código, é muito importante ser claro e seguir uma estrutura racional. Normalmente, nosso código será depurado, lido, usado ou modificado por outras pessoas, portanto, deve ser muito claro
 
-2.  Faça a instalação do [[Git]{.underline}](https://git-scm.com/)
+-   Uma das práticas recomendadas que mais ajudam na clareza são os comentários no código. Eles são frases em linguagem natural precedidas por um símbolo de hash `#` ou `#'.`
 
-3.  Crie um projeto
+-   Os comentários não são lidos durante a execução do código e servem para expressar ideias adicionais que ajudam outras pessoas a entenderem o que programamos.
 
-# Referências
+-   É possível pegar qualquer **script R** e compilá-lo em um relatório que inclua comentários, código-fonte e saída do script.
 
--   [[Advanced R]{.underline}](https://adv-r.hadley.nz/names-values.html)
+-   Os relatórios podem ser gerados em diversos formatos, como **HTML, PDF, MS Word e Markdown**.
 
--   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+-   Para compilar um relatório **a partir de um script R**, basta passá-lo para a função `render()`. Por exemplo: `rmarkdown::render("meu_script.R",pdf_document)` ou usar o comando *Compile Report* command (Ctrl+Shift+K) após a instalação do pacote `rmarkdown` .
 
--   [[Ciência de Dados em R]{.underline}](https://livro.curso-r.com/index.html)
+-   Para realizar os comentários dentro do script R algumas dicas básicas são:
+
+```{r eval=F}
+
+#' ---
+#' title: "Aula 1"
+#' author: "Leonardo"
+#' date: "17/03/2025"
+
+#' ---
+
+#' Use #' para escrever um texto 
+#' 
+#' Use # para escrever um texto dentro do código
+#' 
+#' Pode-se criar seções e subseções no código. Selecione Ctrl+Shift+o para identificá-las
+  
+# Seção --------------------------------------- (Ctrl+Shift+r para criar a seção)
+
+#' Realizando a soma de dois números 
+2+2 # o símbolo "+" representa a soma (comentando no código)
+
+## Subseção --------
+
+# código
+
+### Subseção da Subseção ------------
+# mais código
+
+#' Use # para comentar uma parte do código 
+#' 
+#' Selecione várias linhas de código e use Ctrl+Shift+c para comentar as linhas
+#' 
+#' Use #+ para adicionar configurações 
+#+ fig.width=5, fig.height=5
+
+x = 1:10 ; y = 2*x
+plot(x,y)
+
+#' Escreva expressões matemáticas: $\bar{X}=\frac{\sum_{i=1}^{n}x_i}{n}$
+#' 
+#' A média de x é `r mean(x)`
+
+
+
+```
+
+-   O código acima gera o seguinte documento html:
+
+![](Figuras/doc.png){fig-align="center"}
+
+-   Um dos melhores ambientes para desenvolvimento de código é um arquivo RMarkdown. Recentemente foi criado o Quarto com o mesmo objetivo. Para mais detalhes sobre documentação dinâmica, pesquisar sobre os pacotes `rmarkdown` e o aplicatico `Quarto` para R.\
+
+-   Para criar um arquivo Rmarkdown, basta clicar em File \> New File \> R Markdown
+
+    ![](Figuras/rmd.png){width="588"}
+
+# R e Ciência de Dados
+
+```{r}
+
+```
+
+-   Ciência de dados é um conjunto de ferramentas que permite o pesquisador transformar dados brutos em compreensão, *insights* e conhecimento.
+
+-   Aprender as ferramentas mais importantes em R, permitirão que o pesquisador realize ciência de dados de forma eficiente e reprodutível
+
+-   A ciência de dados é um campo vasto e por isso vamos seguir as seguintes etapas:
+
+![](Figuras/fases_da_CD.png){fig-align="center"}
+
+1.  O pesquisador começa com a importação e organização dos dados.
+
+2.  Em seguida, entende seus dados por meio de um ciclo iterativo de transformação, visualização e modelagem.
+
+3.  Por fim, finaliza o ciclo comunicando seus resultados para outras pessoas.
+
+-   Todas essas etapas são realizadas utilizando a linguagem de programação em R integradas com outras linguagens
+
+-   Algumas referências para o curso: @irizarry2019introduction,@boehmke2016data, @wickham2017r, @ZamoraSaiz2020 e @wickham2019advanced
+
+# Atividades
+
+-   Crie uma conta no [[Github]{.underline}](https://github.com/)
+
+-   Crie um projeto
