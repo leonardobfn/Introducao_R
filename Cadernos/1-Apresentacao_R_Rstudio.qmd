@@ -3,13 +3,16 @@ title: "Apresentação do R e Rstudio"
 lang: pt   
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    pdf: default
 bibliography: references.bib
 ---
 
@@ -350,7 +353,7 @@ getwd()
 
 -   Para atualizar os pacotes: **Tools \> Check for Package Updates...**
 
--   Para instalar pacotes do GitHub \[@\]: `devtools::install_github("username/packagename")` . Esse comando irá instalar o pacote que está na página `github.com/username/packagename`
+-   Para instalar pacotes do GitHub \[\@\]: `devtools::install_github("username/packagename")` . Esse comando irá instalar o pacote que está na página `github.com/username/packagename`
 
 ## Carregar
 
