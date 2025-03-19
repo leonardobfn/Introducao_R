@@ -33,8 +33,6 @@ execute:
 
 -   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
 
--   [A (Not So) Short Introduction to S4](https://cran.r-project.org/doc/contrib/Genolini-S4tutorialV0-5en.pdf)
-
 -   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
 
 -   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
