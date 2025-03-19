@@ -12,7 +12,7 @@ format:
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
-    pdf: default
+    #pdf: default
 bibliography: references.bib
 ---
 
