@@ -1,25 +1,73 @@
 ---
 title: "Estrutura de dados"
+lang: pt   
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    #pdf: adefault
+bibliography: references.bib
 ---
 
--   No contexto da linguagem de programação R, objetos e vetores são conceitos fundamentais relacionados à manipulação de dados;
+As referências para esta aula são: @irizarry2019introduction,@boehmke2016data, @wickham2017r, @ZamoraSaiz2020 e @wickham2019advanced e @grolemund2014hands
+
+# Introdução
+
+-   No nosso cotidiano, lidamos com diferentes tipos de informações o tempo todo, mesmo sem perceber.
+
+    -   Quando fazemos compras, lidamos com itens (texto), quantidades (números inteiros) e preços (números decimais)
+    -   Imagine que você registra suas viagens, anotando a distância percorrida (km), o tempo gasto (horas) e se houve ou não acidentes
+
+-   Como analistas de dados, o "ingrediente" básico para qualquer estudo são os dados que consideramos.
+
+-   Os dados podem ser apresentados como:
+
+    -   **números**, que podem ser inteiros ou decimais;
+    -   **palavras**, seja uma única palavra, uma frase inteira ou até mesmo uma sequência de caracteres, como um código ou uma senha.
+    -   **sim/não**, uma informação dicotômica.
+
+-   Uma vez que cada informação é compreendida, pode haver uma estrutura subjacente nos dados, como uma **sequência de valores**, uma **tabela cruzada** entre duas variáveis ou uma **lista** de categorias ordenadas para determinados indivíduos.
+
+-   Compreender essas estruturas é o primeiro passo essencial para a análise de dados.
+
+-   No contexto da linguagem de programação R, **objetos e vetores** são conceitos fundamentais relacionados à manipulação de dados;
 
 # Objetos
 
--   Um objeto é simplesmente um **nome** que guarda um valor;
+Considere este código:
 
--   O R permite salvar valores dentro de um **objeto**
+```{r}
+x <- 1
+```
 
--   Para criar um objeto, escolha um **nome** e use `<-` ou `=` para guardar a informação dentro do objeto
+-   Esse código está fazendo duas coisas:
+
+    -   Ele está criando um objeto.
+
+    -   E está vinculando esse objeto a um nome, `x`.
+
+-   O **nome** faz uma referência a um valor
+
+-   Um objeto é simplesmente um valor que é guardado dentro do **nome**;
+
+-   Para criar um objeto, escolha um **nome** e use `<-` ou `=` para guardar a informação dentro do nome.
+
+<!-- -->
+
+-   O sinal `<-` cria uma vinculação do nome no lado esquerdo para o objeto no lado direito.
+
+-   O "endereço" de memória do objeto, ou seja, o local na memória onde o objeto é armazenado é obtido
+
+    ```{r}
+    lobstr::obj_addr(x)
+    ```
 
 -   Outros operadores importantes são:
 
@@ -263,7 +311,7 @@ typeof(l1)
 
 ```
 
--   Para acessa um elemento da lista usamos `[[ ]]`
+-   Para acessar um elemento da lista usamos `[[ ]]`
 
 ```{r}
 l1 <- list(
@@ -590,10 +638,18 @@ data_formatada
 
     5.  Transforme o data frame em uma matriz. O que acontece?
 
-# Referências
+## Questão 5
 
--   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
+Crie uma matriz 3× 5 contendo todos os números consecutivos entre 16 e 30, organizados por colunas.
 
--   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
+## Questão 6
 
--   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
+Use o data frame CO2 da biblioteca `dataset` para realizar as seguintes tarefas:
+
+1.  Acessar o help `?datasets::CO2` para conhecer a base de dados
+
+2.  Observe o data frame para identificar as diferentes variáveis incluídas
+
+3.  Calcule a média e o desvio padrão das taxas de absorção de CO2 (*uptake*) em Quebec.
+
+4.  Calcule as concentrações mínima e máxima de CO2 para as plantas que estão sob o tratamento *chilled*.

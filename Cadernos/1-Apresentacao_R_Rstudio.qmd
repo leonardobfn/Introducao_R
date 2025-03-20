@@ -515,7 +515,7 @@ plot(x,y)
 
 -   Todas essas etapas são realizadas utilizando a linguagem de programação em R integradas com outras linguagens
 
--   Algumas referências para o curso: @irizarry2019introduction,@boehmke2016data, @wickham2017r, @ZamoraSaiz2020 e @wickham2019advanced
+-   Algumas referências para o curso: @irizarry2019introduction, @boehmke2016data, @wickham2017r, @ZamoraSaiz2020, @wickham2019advanced e @grolemund2014hands
 
 # Atividades
 
