@@ -119,6 +119,7 @@ div.csl-indent {
   <li><a href="#matrizes" id="toc-matrizes" class="nav-link" data-scroll-target="#matrizes">Matrizes</a></li>
   <li><a href="#array" id="toc-array" class="nav-link" data-scroll-target="#array">Array</a></li>
   <li><a href="#data-frame" id="toc-data-frame" class="nav-link" data-scroll-target="#data-frame">Data frame</a></li>
+  <li><a href="#comandos-rep-seq-e-sample" id="toc-comandos-rep-seq-e-sample" class="nav-link" data-scroll-target="#comandos-rep-seq-e-sample">Comandos: <code>rep</code>, <code>seq</code> e <code>sample</code></a></li>
   <li><a href="#atributos" id="toc-atributos" class="nav-link" data-scroll-target="#atributos">Atributos</a>
   <ul class="collapse">
   <li><a href="#nomes" id="toc-nomes" class="nav-link" data-scroll-target="#nomes">Nomes</a></li>
@@ -203,7 +204,7 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lobstr<span class="sc">::</span><span class="fu">obj_addr</span>(x)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x2712aebd430"</code></pre>
+<pre><code>[1] "0x1ce3ba17190"</code></pre>
 </div>
 </div></li>
 <li><p>Outros operadores importantes são:</p></li>
@@ -679,11 +680,11 @@ linha2  3  4</code></pre>
 <li><p>Você pode criar um array usando a função <strong><code>array()</code></strong>. Especifique os dados e as dimensões.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando um array 2x3x2 - linhas X colunas X camadas</span></span>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando um array 2x2x3 - linhas X colunas X camadas</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>vec1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>L,<span class="dv">2</span>L,<span class="dv">3</span>L,<span class="dv">4</span>L)</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>L,<span class="dv">6</span>L,<span class="dv">7</span>L,<span class="dv">8</span>L)</span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>L,<span class="dv">6</span>L,<span class="dv">7</span>L,<span class="dv">8</span>L)</span>
-<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>meu_array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(vec1,vec2), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>vec3 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">9</span>L,<span class="dv">10</span>L,<span class="dv">11</span>L,<span class="dv">12</span>L)</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>meu_array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(vec1,vec2,vec3), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
 <span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>meu_array</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>, , 1
@@ -701,8 +702,8 @@ linha2  3  4</code></pre>
 , , 3
 
      [,1] [,2]
-[1,]    1    3
-[2,]    2    4</code></pre>
+[1,]    9   11
+[2,]   10   12</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(meu_array)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -710,24 +711,115 @@ linha2  3  4</code></pre>
 </div>
 </div>
 <ul>
+<li>Usando o argumento <code>dimnames</code> para nomear as dimensões</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(meu_array) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">linhas=</span><span class="fu">c</span>(<span class="st">"Linha 1"</span>,<span class="st">"Linha 2"</span>),</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Colunas =</span> <span class="fu">c</span>(<span class="st">"Col 1"</span>,<span class="st">"Col 2"</span>),</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Camadas =</span> <span class="fu">c</span>(<span class="st">"C1"</span>,<span class="st">"C2"</span>,<span class="st">"C3"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
 <li>Os elementos de um array são acessados usando índices correspondentes às dimensões.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>meu_array[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>]<span class="co"># linhas X colunas X camadas</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>meu_array[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>]<span class="co"># linhas X colunas X camadas</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>meu_array[,,<span class="dv">1</span>] <span class="co"># acessando a matriz da primeira camada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>meu_array[,,<span class="dv">1</span>] <span class="co"># acessando a matriz da primeira camada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2]
-[1,]    1    3
-[2,]    2    4</code></pre>
+<pre><code>         Colunas
+linhas    Col 1 Col 2
+  Linha 1     1     3
+  Linha 2     2     4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>meu_array[,,<span class="dv">2</span>]<span class="co"># acessando a matriz da segunda camada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>meu_array[,,<span class="dv">2</span>]<span class="co"># acessando a matriz da segunda camada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2]
-[1,]    5    7
-[2,]    6    8</code></pre>
+<pre><code>         Colunas
+linhas    Col 1 Col 2
+  Linha 1     5     7
+  Linha 2     6     8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>meu_array[<span class="dv">1</span>,,]<span class="co"># acessando a primeira linha de todas as camadas</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Camadas
+Colunas C1 C2 C3
+  Col 1  1  5  9
+  Col 2  3  7 11</code></pre>
+</div>
+</div>
+<ul>
+<li><code>Titanic</code> é exemplo de dados que estão organizados no formato <em>array</em> de 4 dimensões</li>
+</ul>
+<table class="table">
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Nome</th>
+<th>Níveis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Classe</td>
+<td>1ª, 2ª, 3ª, Tripulação</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Sexo</td>
+<td>Masculino, Feminino</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Idade</td>
+<td>Criança, Adulto</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Sobreviveu</td>
+<td>Não, Sim</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>Titanic</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, , Age = Child, Survived = No
+
+      Sex
+Class  Male Female
+  1st     0      0
+  2nd     0      0
+  3rd    35     17
+  Crew    0      0
+
+, , Age = Adult, Survived = No
+
+      Sex
+Class  Male Female
+  1st   118      4
+  2nd   154     13
+  3rd   387     89
+  Crew  670      3
+
+, , Age = Child, Survived = Yes
+
+      Sex
+Class  Male Female
+  1st     5      1
+  2nd    11     13
+  3rd    13     14
+  Crew    0      0
+
+, , Age = Adult, Survived = Yes
+
+      Sex
+Class  Male Female
+  1st    57    140
+  2nd    14     80
+  3rd    75     76
+  Crew  192     20</code></pre>
 </div>
 </div>
 </section>
@@ -739,19 +831,19 @@ linha2  3  4</code></pre>
 <li><p>Você pode criar um data frame manualmente usando a função <strong><code>data.frame()</code></strong>.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>meu_data_frame <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nome =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Leo"</span>,<span class="st">"Vitor"</span>),</span>
-<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Idade =</span> <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">22</span>),</span>
-<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nota =</span> <span class="fu">c</span>(<span class="dv">85</span>, <span class="dv">92</span>, <span class="dv">78</span>)</span>
-<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meu_data_frame) <span class="co"># informações sobre as colunas</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>meu_data_frame <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nome =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Leo"</span>,<span class="st">"Vitor"</span>),</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Idade =</span> <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">22</span>),</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nota =</span> <span class="fu">c</span>(<span class="dv">85</span>, <span class="dv">92</span>, <span class="dv">78</span>)</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meu_data_frame) <span class="co"># informações sobre as colunas</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   3 obs. of  3 variables:
  $ Nome : chr  "Alice" "Leo" "Vitor"
  $ Idade: num  25 30 22
  $ Nota : num  85 92 78</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>meu_data_frame</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>meu_data_frame</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Nome Idade Nota
 1 Alice    25   85
@@ -760,15 +852,15 @@ linha2  3  4</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Dia =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">"2023-01-01"</span>), <span class="at">by =</span> <span class="st">"days"</span>, <span class="at">length.out =</span> <span class="dv">5</span>),</span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Temperatura =</span> <span class="fu">c</span>(<span class="fl">25.3</span>, <span class="fl">24.5</span>, <span class="fl">22.0</span>, <span class="fl">26.8</span>, <span class="fl">23.5</span>),</span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Umidade =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">60</span>, <span class="dv">80</span>),</span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">VelocidadeVento =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">15</span>, <span class="dv">9</span>)</span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Exibindo o data frame</span></span>
-<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dados_climaticos)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Dia =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">"2023-01-01"</span>), <span class="at">by =</span> <span class="st">"days"</span>, <span class="at">length.out =</span> <span class="dv">5</span>),</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Temperatura =</span> <span class="fu">c</span>(<span class="fl">25.3</span>, <span class="fl">24.5</span>, <span class="fl">22.0</span>, <span class="fl">26.8</span>, <span class="fl">23.5</span>),</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Umidade =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">60</span>, <span class="dv">80</span>),</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">VelocidadeVento =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">15</span>, <span class="dv">9</span>)</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Exibindo o data frame</span></span>
+<span id="cb118-9"><a href="#cb118-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dados_climaticos)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Dia Temperatura Umidade VelocidadeVento
 1 2023-01-01        25.3      65              10
@@ -777,7 +869,7 @@ linha2  3  4</code></pre>
 4 2023-01-04        26.8      60              15
 5 2023-01-05        23.5      80               9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados_climaticos,<span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados_climaticos,<span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Dia Temperatura Umidade VelocidadeVento
 1 2023-01-01        25.3      65              10
@@ -790,15 +882,15 @@ linha2  3  4</code></pre>
 <li><p>Você também pode acessar elementos por índices de linha e coluna</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos<span class="sc">$</span>Temperatura</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos<span class="sc">$</span>Temperatura</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25.3 24.5 22.0 26.8 23.5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos[,<span class="dv">2</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos[,<span class="dv">2</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25.3 24.5 22.0 26.8 23.5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">2</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>dados_climaticos[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">2</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25.3 24.5 22.0</code></pre>
 </div>
@@ -807,7 +899,7 @@ linha2  3  4</code></pre>
 <li>Outra maneira de acessar as informções é usando a função <code>subset()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(dados_climaticos,Umidade<span class="sc">&gt;</span><span class="dv">70</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(dados_climaticos,Umidade<span class="sc">&gt;</span><span class="dv">70</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Dia Temperatura Umidade VelocidadeVento
 3 2023-01-03        22.0      75               8
@@ -815,26 +907,33 @@ linha2  3  4</code></pre>
 </div>
 </div>
 </section>
+<section id="comandos-rep-seq-e-sample" class="level1">
+<h1>Comandos: <code>rep</code>, <code>seq</code> e <code>sample</code></h1>
+</section>
 <section id="atributos" class="level1">
 <h1>Atributos</h1>
 <ul>
 <li>Além dos próprios elementos, os vetores podem ter atributos que fornecem informações adicionais sobre os dados</li>
 </ul>
-<p><img src="Figuras/classe.png" class="img-fluid" width="604"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figuras/classe.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="604"></p>
+</figure>
+</div>
 <section id="nomes" class="level2">
 <h2 class="anchored" data-anchor-id="nomes">Nomes</h2>
 <ul>
 <li>Você pode atribuir nomes a cada elemento do vetor usando a função <strong><code>names()</code></strong>. Isso facilita a referência a elementos específicos pelo nome.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>meu_vetor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(meu_vetor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"primeiro"</span>, <span class="st">"segundo"</span>, <span class="st">"terceiro"</span>)</span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>meu_vetor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(meu_vetor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"primeiro"</span>, <span class="st">"segundo"</span>, <span class="st">"terceiro"</span>)</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>primeiro  segundo terceiro 
        1        2        3 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(meu_vetor)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(meu_vetor)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$names
 [1] "primeiro" "segundo"  "terceiro"</code></pre>
@@ -844,14 +943,14 @@ linha2  3  4</code></pre>
 <li>Formas alternativas para nomear um vetor</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">3</span>)</span>
-<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>x1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">3</span>)</span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>x1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>a b c 
 1 2 3 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
-<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>x2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>x2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>a b c 
 1 2 3 </code></pre>
@@ -864,13 +963,13 @@ linha2  3  4</code></pre>
 <li>Em R, vetores podem ter atributos de dimensão, que são comumente associados a matrizes.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>meu_vetor <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>meu_vetor <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(meu_vetor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="co"># linha x coluna</span></span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(meu_vetor) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="co"># linha x coluna</span></span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>meu_vetor</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]    1
@@ -879,7 +978,7 @@ linha2  3  4</code></pre>
 [4,]    4
 [5,]    5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(meu_vetor)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(meu_vetor)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$dim
 [1] 5 1</code></pre>
@@ -909,20 +1008,20 @@ linha2  3  4</code></pre>
 <li><p>Em R, a função <strong><code>class()</code></strong> é usada para obter a classe de um objeto</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>vec1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>)</span>
-<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>vec1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>minha_matriz <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(vec1,vec2), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>minha_matriz</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>minha_matriz <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(vec1,vec2), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>minha_matriz</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    3
 [2,]    2    4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(minha_matriz)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(minha_matriz)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "matrix" "array" </code></pre>
 </div>
@@ -931,13 +1030,13 @@ linha2  3  4</code></pre>
 <li>Você pode atribuir uma classe a um vetor usando a função <strong><code>class()</code></strong>. Isso é comumente usado em programação orientada a objetos em R.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
-<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)<span class="ot">&lt;-</span> <span class="st">"minha_classe"</span></span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)<span class="ot">&lt;-</span> <span class="st">"minha_classe"</span></span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(vec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "minha_classe"</code></pre>
 </div>
@@ -949,13 +1048,13 @@ linha2  3  4</code></pre>
 <li>Criando um objeto da classe Pessoa</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>pessoa1 <span class="ot">&lt;-</span> <span class="fu">structure</span>(</span>
-<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"Leonardo"</span>), </span>
-<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">idade =</span> <span class="dv">31</span>,</span>
-<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_name =</span> <span class="st">"Nascimento"</span>,</span>
-<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="st">"Pessoa"</span></span>
-<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>pessoa1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>pessoa1 <span class="ot">&lt;-</span> <span class="fu">structure</span>(</span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"Leonardo"</span>), </span>
+<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">idade =</span> <span class="dv">31</span>,</span>
+<span id="cb154-4"><a href="#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_name =</span> <span class="st">"Nascimento"</span>,</span>
+<span id="cb154-5"><a href="#cb154-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">class =</span> <span class="st">"Pessoa"</span></span>
+<span id="cb154-6"><a href="#cb154-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb154-7"><a href="#cb154-7" aria-hidden="true" tabindex="-1"></a>pessoa1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Leonardo"
 attr(,"idade")
@@ -965,15 +1064,15 @@ attr(,"last_name")
 attr(,"class")
 [1] "Pessoa"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(pessoa1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(pessoa1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Pessoa"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(pessoa1,<span class="st">"idade"</span>) <span class="co"># selecionado o atributo idade</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(pessoa1,<span class="st">"idade"</span>) <span class="co"># selecionado o atributo idade</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 31</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pessoa1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pessoa1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
 </div>
@@ -985,43 +1084,43 @@ attr(,"class")
 <section id="questão-1" class="level2">
 <h2 class="anchored" data-anchor-id="questão-1">Questão 1</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co">#'Criar uma classe simples chamada "Produto" que representa um produto. </span></span>
-<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'Considere os atributos: preço e validade.</span></span>
-<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'Utilizar a função structure para criar objetos da classe "Produto".</span></span>
-<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb157-5"><a href="#cb157-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' Considere o exemplo para trabalhar com datas</span></span>
-<span id="cb157-6"><a href="#cb157-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb157-7"><a href="#cb157-7" aria-hidden="true" tabindex="-1"></a>exem_data <span class="ot">=</span> <span class="fu">as.Date</span>(<span class="st">"2023-12-31"</span>) <span class="co"># ano-mês-dia</span></span>
-<span id="cb157-8"><a href="#cb157-8" aria-hidden="true" tabindex="-1"></a>data_formatada <span class="ot">=</span> <span class="fu">format</span>(exem_data, <span class="at">format =</span> <span class="st">"%d/%m/%Y"</span>) <span class="co"># dia-mês-ano</span></span>
-<span id="cb157-9"><a href="#cb157-9" aria-hidden="true" tabindex="-1"></a>data_formatada</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co">#'Criar uma classe simples chamada "Produto" que representa um produto. </span></span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'Considere os atributos: preço e validade.</span></span>
+<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'Utilizar a função structure para criar objetos da classe "Produto".</span></span>
+<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-5"><a href="#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' Considere o exemplo para trabalhar com datas</span></span>
+<span id="cb162-6"><a href="#cb162-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-7"><a href="#cb162-7" aria-hidden="true" tabindex="-1"></a>exem_data <span class="ot">=</span> <span class="fu">as.Date</span>(<span class="st">"2023-12-31"</span>) <span class="co"># ano-mês-dia</span></span>
+<span id="cb162-8"><a href="#cb162-8" aria-hidden="true" tabindex="-1"></a>data_formatada <span class="ot">=</span> <span class="fu">format</span>(exem_data, <span class="at">format =</span> <span class="st">"%d/%m/%Y"</span>) <span class="co"># dia-mês-ano</span></span>
+<span id="cb162-9"><a href="#cb162-9" aria-hidden="true" tabindex="-1"></a>data_formatada</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="questão-2" class="level2">
 <h2 class="anchored" data-anchor-id="questão-2">Questão 2</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co">#'Criar uma classe simples chamada "Livro" que representa um livro com atributos: autor e ano de publicação.</span></span>
-<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'Utilizar a função structure para criar objetos da classe "Livro" com informações fictícias.</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="co">#'Criar uma classe simples chamada "Livro" que representa um livro com atributos: autor e ano de publicação.</span></span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'Utilizar a função structure para criar objetos da classe "Livro" com informações fictícias.</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="questão-3" class="level2">
 <h2 class="anchored" data-anchor-id="questão-3">Questão 3</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="do">## letra a)---------</span></span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' Crie um data.frame contendo as variáveis: nome e nota</span></span>
-<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' escolha os nomes e valores</span></span>
-<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' 5 linhas</span></span>
-<span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-6"><a href="#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-7"><a href="#cb159-7" aria-hidden="true" tabindex="-1"></a><span class="do">## letra b)---------</span></span>
-<span id="cb159-8"><a href="#cb159-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' Adicione um atributo chamado "disciplina", representando o nome da disciplina e </span></span>
-<span id="cb159-9"><a href="#cb159-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' Exiba o atributo "disciplina" </span></span>
-<span id="cb159-10"><a href="#cb159-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-11"><a href="#cb159-11" aria-hidden="true" tabindex="-1"></a><span class="do">## letra c)---------</span></span>
-<span id="cb159-12"><a href="#cb159-12" aria-hidden="true" tabindex="-1"></a><span class="co">#'Modifique o valor do atributo "disciplina" para representar outra disciplina.</span></span>
-<span id="cb159-13"><a href="#cb159-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-14"><a href="#cb159-14" aria-hidden="true" tabindex="-1"></a><span class="do">## letra d)---------</span></span>
-<span id="cb159-15"><a href="#cb159-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-16"><a href="#cb159-16" aria-hidden="true" tabindex="-1"></a><span class="co">#'Adicione o atributo "semestre" e  Exiba o atributo "semestre"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="do">## letra a)---------</span></span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' Crie um data.frame contendo as variáveis: nome e nota</span></span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' escolha os nomes e valores</span></span>
+<span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' 5 linhas</span></span>
+<span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-7"><a href="#cb164-7" aria-hidden="true" tabindex="-1"></a><span class="do">## letra b)---------</span></span>
+<span id="cb164-8"><a href="#cb164-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' Adicione um atributo chamado "disciplina", representando o nome da disciplina e </span></span>
+<span id="cb164-9"><a href="#cb164-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' Exiba o atributo "disciplina" </span></span>
+<span id="cb164-10"><a href="#cb164-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-11"><a href="#cb164-11" aria-hidden="true" tabindex="-1"></a><span class="do">## letra c)---------</span></span>
+<span id="cb164-12"><a href="#cb164-12" aria-hidden="true" tabindex="-1"></a><span class="co">#'Modifique o valor do atributo "disciplina" para representar outra disciplina.</span></span>
+<span id="cb164-13"><a href="#cb164-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-14"><a href="#cb164-14" aria-hidden="true" tabindex="-1"></a><span class="do">## letra d)---------</span></span>
+<span id="cb164-15"><a href="#cb164-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-16"><a href="#cb164-16" aria-hidden="true" tabindex="-1"></a><span class="co">#'Adicione o atributo "semestre" e  Exiba o atributo "semestre"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="questão-4" class="level2">

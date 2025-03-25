@@ -2,14 +2,57 @@
 title: "Estruturas de Controles"
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    #pdf: adefault
+bibliography: references.bib
 ---
+
+# Introdução
+
+-   Todos nós, no dia-a-dia, nos deparamos com vários problemas e o nosso objetivo é solucioná-los. Dessa forma, definimos uma sequência de passos necessários que devem ser executados para se chegar na solução do problema.
+
+-   Dentro do contexto da lógica de programação, tais instruções (cada passo a ser executado) são denominadas de **algoritmos.**
+
+#### Algoritmo 1: Preparar ovo frito
+
+1.  Pegar frigideira, ovo, óleo e sal.
+2.  Colocar óleo na frigideira.
+3.  Acender o fogo.
+4.  Colocar a frigideira no fogo.
+5.  Esperar o óleo esquentar.
+6.  Colocar o ovo na frigideira.
+7.  Retirar o ovo quando estiver pronto.
+
+#### Algoritmo 2: Trocar lâmpadas
+
+1.  Se a lâmpada estiver fora de alcance, pegar a escada.
+2.  Pegar a lâmpada.
+3.  Se a lâmpada estiver quente, pegar um pano.
+4.  Tirar a lâmpada queimada.
+5.  Colocar a lâmpada boa.
+
+#### Algoritmo 3: Descascar batatas
+
+1.  Pegar faca, bacia e batatas.
+2.  Colocar água na bacia.
+3.  Enquanto houver batatas, descascar batatas.
+
+#### Algoritmo 4: Fazer uma prova
+
+1.  Ler a prova.
+2.  Pegar a caneta.
+3.  Enquanto houver questão em branco e o tempo não terminou, faça:
+    -   Se souber a questão, resolvê-la.
+    -   Senão, pular para outra.
+4.  Entregar a prova.
 
 # Definição
 
@@ -25,6 +68,20 @@ format:
     -   Loop: repete uma instrução várias vezes
 
 ## Condicional
+
+-   Os **operadores lógicos** são usados para representar situações lógicas que não podem ser representadas por operadores aritméticos
+
+    -   O primeiro deles é o operador binário de conjunção ''*e'',* representadopor `&`. Quando duas expressões são unidas por este operador, a expressão resultante só é verdadeira se ambas expressões constituintes também são. Exemplo:
+
+        ```{r}
+        (2 < 3) & (5 > 1) # Tanto a parte (2 < 3) como (5 > 1) são verdadeiras, logo a expressão completa também é.
+        ```
+
+    -   O segundo operador é o operador binário de disjunção "*ou"*, representado por `|`. Neste caso, se pelo menos uma das expressões constituintes for verdadeira a expressão completa também será
+
+        ```{r}
+        (2 < 1) | (5 > 1) # A parte (5 > 1) é verdadeira, logo a expressão completa também é.
+        ```
 
 -   A estrutura condicional "if" é uma construção que permite a execução de determinados blocos de código com base na avaliação de uma condição lógica
 
@@ -188,6 +245,17 @@ for (i in 1:5) {
 }
 ```
 
+-   Guardando resultado
+
+```{r}
+B = 10
+y <- vector(mode = "numeric",length = B) # criando vetor do tipo numeric com tamnho B
+for(i in 1:B) {
+y[i] = paste ("Número=", i)
+}
+head(y)
+```
+
 -   Ao executar este código, você obterá a saída mostrando a soma dos primeiros 10 números naturais.
 
 ```{r}
@@ -203,8 +271,7 @@ cumsum(1:n) # forma alternativa
 -   Se quisermos combinar as saídas anteriores em um único vetor x, podemos primeiro iniciar x e depois anexar a saída do loop for a x.
 
 ```{r}
-x <- NULL # criando vetor vazio
-
+x <- NULL # criando vetor vazio sem definir o tipo nem o tamanho
 for(i in 2010:2016) {
 output <- paste ("The year is", i)
 x <- append(x, output)
@@ -231,6 +298,7 @@ matrix_amostra_sorteada[1:6,1:3]
 head(media_amostra_sorteada)
 ```
 
+-   Aumente $m$ e observe o que acontece com a média
 -   Usando a função `replicate()`
 
 ```{r}
@@ -338,27 +406,17 @@ repeat {
 
 -   Rode esse código no seu computador
 
--   Avaliar como o tamanho da amostra afeta a média amostral
-
 ```{r}
 #| eval: false
 #| echo: true
-
-N = 1000
-populacao = runif(N, 0, 100) # gerar N números entre 0 e 100
-head(populacao)
-(media.populacao = mean(populacao))
-n = 5 # tamanho da amostra inicial
-repeat {
-  amostra = sample(populacao, n, replace = T) # sorteando n observações da população
-  media.amostra = mean(amostra)
-  if (abs(media.amostra - media.populacao) < 0.01) {
-    n = 2 * n
-    cat("n=", n, "\n", "Media amostral=", media.amostra, "\n")
+i = 0
+repeat{
+  if(i>=5){
+  cat(i,"é maior ou igual que 5","\n")
     break
   }
-  n = 2 * n
-  cat("n=", n, "\n", "Media amostral=", media.amostra, "\n")
+  cat(i,"é menor que 5","\n")
+  i=i+1
 }
 ```
 
@@ -396,20 +454,56 @@ print (i)
 }
 ```
 
+# Vetorização
+
+-   O seguinte algoritmo aplica a soma entre cada elemento do vetor
+
+    ```{r}
+    x <- c(1, 3, 4)
+    y <- c(1, 2, 4)
+
+    z <- as.vector (NULL)
+    for (i in seq_along(x)) {
+    z[i] <- x[i] + y[i]
+    print (z)
+    }
+    ```
+
+-   Em R, `+` é uma função vetorizada, ou seja, ela realiza a operação em cada elemento sem precisar criar um loop
+
+    ```{r}
+    x+y
+    x*y
+    x>y
+    ```
+
+-   Observe o que acontece quando os vetores possuem tamanho diferentes
+
+    ```{r}
+    (long <- 1:10)
+    (short <- 1:5)
+    long + short
+    par_length <- 1:10
+    impar_length <- 1:3
+    par_length + impar_length
+    ```
+
 # Atividades
 
-1.  Considere:
+1.  Considere a situação de um determinado aluno em uma disciplina. Sabe-se que para ser aprovado, é necessário que a nota \>= 7 e que a frequencia \> 75%. Elabore um algoritmo para avaliar a situação do aluno
+
+2.  Considere:
 
     1.  Gere número de -100 a 100. Pode usar a função `seq` ou `runif(200,-100,100)`
 
-    2.  Selecione \$n=100\$ da sequência
+    2.  Selecione $n=100$ números da sequência gerada no passo 1
 
     3.  Conte quantos são negativos e quantos são positivos
 
-2.  Abaixo está a tabuada da sequência de Fibonnacci até 9. Construa um códido para reproduzi-lá.\
+3.  Abaixo está a tabuada da sequência de Fibonnacci até 9. Construa um códido para reproduzi-lá.\
     ![](Figuras/fibo.png)
 
-3.  Considere o seguinte jogo (lançar moeda):
+4.  Considere o seguinte jogo (lançar moeda):
 
     1.  Jogador 1: escolhe cara
 
@@ -417,14 +511,6 @@ print (i)
 
     3.  Jogue a moeda
 
-    4.  Se a moeda for cara, o jogador 1 ganha um ponto. O mesmo para o jogador 2
+    4.  Se a moeda for cara, o jogador 1 ganha um ponto. Se a moeda for coroa, o jogador 2 ganha um ponto
 
-    5.  Vence que fizer 20 pontos primeiro
-
-# Referências
-
--   [[Advanced R]{.underline}](https://adv-r.hadley.nz/index.html)
-
--   [[R for Data Science]{.underline}](https://r4ds.had.co.nz/index.html)
-
--   [Hands-On Programming with R](https://web.itu.edu.tr/~tokerem/Hands-On_R.pdf)
+    5.  Vence quem fizer 20 pontos primeiro

@@ -207,6 +207,8 @@ typeof(int_var)
 is.integer(int_var)
 is.character(int_var)
 length(int_var)
+int_var_1 = 1:10 # criando uma sequência de inteiros de 1 a 10
+typeof(int_var_1)
 ```
 
 ### Caractere (string)
@@ -301,7 +303,7 @@ typeof(y2)
 
 ```{r}
 l1 <- list(
-  1:3, 
+  1:3, # criando 
   "a", 
   c(TRUE, FALSE, TRUE), 
   c(2.3, 5.9)
@@ -395,13 +397,21 @@ minha_matriz[,"C1"] # acessando a coluna 1
 -   Você pode criar um array usando a função **`array()`**. Especifique os dados e as dimensões.
 
 ```{r}
-# Criando um array 2x3x2 - linhas X colunas X camadas
+# Criando um array 2x2x3 - linhas X colunas X camadas
 vec1 = c(1L,2L,3L,4L)
 vec2 = c(5L,6L,7L,8L)
-vec2 = c(5L,6L,7L,8L)
-meu_array <- array(c(vec1,vec2), dim = c(2,2,3))
+vec3 = c(9L,10L,11L,12L)
+meu_array <- array(c(vec1,vec2,vec3), dim = c(2,2,3))
 meu_array
 typeof(meu_array)
+```
+
+-   Usando o argumento `dimnames` para nomear as dimensões
+
+```{r}
+dimnames(meu_array) <- list(linhas=c("Linha 1","Linha 2"),
+                            Colunas = c("Col 1","Col 2"),
+                            Camadas = c("C1","C2","C3"))
 ```
 
 -   Os elementos de um array são acessados usando índices correspondentes às dimensões.
@@ -410,6 +420,20 @@ typeof(meu_array)
 meu_array[1,2,2]# linhas X colunas X camadas
 meu_array[,,1] # acessando a matriz da primeira camada
 meu_array[,,2]# acessando a matriz da segunda camada
+meu_array[1,,]# acessando a primeira linha de todas as camadas
+```
+
+-   `Titanic` é exemplo de dados que estão organizados no formato *array* de 4 dimensões
+
+| No  | Nome       | Níveis                 |
+|-----|------------|------------------------|
+| 1   | Classe     | 1ª, 2ª, 3ª, Tripulação |
+| 2   | Sexo       | Masculino, Feminino    |
+| 3   | Idade      | Criança, Adulto        |
+| 4   | Sobreviveu | Não, Sim               |
+
+```{r}
+Titanic
 ```
 
 # Data frame
@@ -459,11 +483,52 @@ dados_climaticos[1:3,2]
 subset(dados_climaticos,Umidade>70)
 ```
 
+# Geração de sequências
+
+-   Existem alguns comandos no R que são especialmente úteis para criar vetores de números;
+
+-   A função `seq()` gera uma sequência de números com uma progressão aritmética especificada.
+
+    ```{r}
+    # Gerar uma sequência de números de 1 a 21 com incrementos de 2
+    seq(from = 1, to = 21, by = 2)
+    # Gerar uma sequência de números de 0 a 21 com 15 valores igualmente espaçados
+    seq (0, 21, length.out = 15)
+    ```
+
+-   A função `rep()` permite repetir constantes especificadas em longos vetores
+
+    ```{r}
+    # Replica os valores de 1 a 4 (seq inteira) um número especificado de vezes
+    rep(1:4, times = 2)
+    # Replica cada número da seq de acordo com o vetor definido no argumento times
+    rep(1:4,times = c(1,2,3,10))
+    # Replica os valores de 1 a 4 de forma agrupada (cada valor repetido antes de passar para o próximo)
+    rep(1:4, each = 2)
+    # Replica os valores de 1 a 4 de forma agrupada (cada valor repetido duas vezes) até atingir o comprimento total de 16
+    rep(1:4, each = 2, length.out = 16)
+    # Replica as letras A e B (seq inteira) duas vezes
+    rep(LETTERS[1:2], times = 2)
+    ```
+
+-   Alternativamente, você pode usar o comando `sample()` para gerar uma amostra aleatória com reposição ( o mesmo elemento pode ser selecionado mais de uma vez) ou sem reposição (cada elemento é escolhido apenas uma vez)
+
+    ```{r}
+    # Selecionar (sem reposição) 3 números de 1 a 5. 
+    sample(1:5, 3, replace = FALSE,prob = NULL)
+    # Selecionar (com reposição) 3 números de 1 a 5 
+    sample(1:5, 3, replace = TRUE,prob = NULL)
+    # Selecionar (com reposição) 3 números de 1 a 5 considerando as chances (probabilidades) definidas no argumento prob
+    sample(1:5, 3, replace = TRUE,prob = c(0.30,0.40,0.15,0.10,0.05))
+    # Gera uma sequência de 100 valores, escolhendo aleatoriamente entre 0 e 1, com reposição. Ensaio de Bernoulli
+    sample(c(0,1), 10, replace = TRUE)
+    ```
+
 # Atributos
 
 -   Além dos próprios elementos, os vetores podem ter atributos que fornecem informações adicionais sobre os dados
 
-![](Figuras/classe.png){width="604"}
+![](Figuras/classe.png){fig-align="center" width="604"}
 
 ## Nomes
 
@@ -640,7 +705,7 @@ data_formatada
 
 ## Questão 5
 
-Crie uma matriz 3× 5 contendo todos os números consecutivos entre 16 e 30, organizados por colunas.
+Crie uma matriz 3× 5 contendo todos os números consecutivos entre 16 e 30, organize por colunas.
 
 ## Questão 6
 
