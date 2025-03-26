@@ -11,9 +11,11 @@ format:
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
-    #pdf: adefault
+    pdf: default
 bibliography: references.bib
 ---
+
+As referências para esta aula são: @irizarry2019introduction,@boehmke2016data, @wickham2017r, @ZamoraSaiz2020 e @wickham2019advanced e @grolemund2014hands
 
 # Introdução
 
@@ -490,27 +492,88 @@ print (i)
 
 # Atividades
 
-1.  Considere a situação de um determinado aluno em uma disciplina. Sabe-se que para ser aprovado, é necessário que a nota \>= 7 e que a frequencia \> 75%. Elabore um algoritmo para avaliar a situação do aluno
+## Questão 1
 
-2.  Considere:
+Considere a situação de um determinado aluno em uma disciplina. Sabe-se que para ser aprovado, é necessário que a nota seja no mínimo 7 e que a frequencia seja no mínimo 75% das aulas. Elabore um algoritmo para avaliar a situação do aluno
 
-    1.  Gere número de -100 a 100. Pode usar a função `seq` ou `runif(200,-100,100)`
+## Questão 2
 
-    2.  Selecione $n=100$ números da sequência gerada no passo 1
+Programe o seguinte algoritmo:
 
-    3.  Conte quantos são negativos e quantos são positivos
+1.  Gere números de -100 a 100. Pode usar a função `seq` ou `runif(200,-100,100)`
 
-3.  Abaixo está a tabuada da sequência de Fibonnacci até 9. Construa um códido para reproduzi-lá.\
+2.  Selecione, com reposição e mesmas chances, $n=100$ números da sequência gerada no passo 1
+
+3.  Conte quantos são negativos e quantos são positivos
+
+## Questão 3
+
+1.  Abaixo está a tabuada da sequência de Fibonnacci até 9. Construa um códido para reproduzi-lá.\
     ![](Figuras/fibo.png)
 
-4.  Considere o seguinte jogo (lançar moeda):
+## Questão 4
 
-    1.  Jogador 1: escolhe cara
+Considere o seguinte jogo (lançar moeda):
 
-    2.  Jogador 2: escolhe coroa
+1.  Jogador 1: escolhe cara
 
-    3.  Jogue a moeda
+2.  Jogador 2: escolhe coroa
 
-    4.  Se a moeda for cara, o jogador 1 ganha um ponto. Se a moeda for coroa, o jogador 2 ganha um ponto
+3.  Jogue a moeda
 
-    5.  Vence quem fizer 20 pontos primeiro
+4.  Se a moeda for cara, o jogador 1 ganha um ponto. Se a moeda for coroa, o jogador 2 ganha um ponto
+
+5.  Vence quem fizer 20 pontos primeiro
+
+## Questão 5
+
+1.  Programe o seguinte algoritmo:
+
+    1.  Crie uma sequência de 1 a 1000
+
+    2.  Selecione, com reposição e mesmas chances, 100 números da sequência gerada no passo 1
+
+    3.  Calcule os quantis de ordem 2,5% (0,025) e 97,5% (0,975) da amostra selecionada no passo 2. Use a função `quantile()`
+
+    4.  Guarde as amostras obtidas no passo 2
+
+    5.  Guarde os valores dos quantis obtidos no passo 3
+
+    6.  Faça os passos de 2 a 5 B=150 vezes
+
+## Questão 6
+
+Programe o seguinte algoritmo:
+
+1.  Selecione, com reposição e mesmas chances, 50 números da sequência de 1 a 100
+
+2.  Obtenha o mínimo dos números selecionados
+
+3.  Compare o resultado que foi obtido no passo 2 com o resultado gerado do camando `min()`
+
+## Questão 7
+
+Explique o passo a passo do algoritmo abaixo
+
+```{r}
+#| eval: false
+#| echo: true
+numero_escolhido =  5
+resposta = " "
+
+while(resposta != numero_escolhido) {
+   resposta <- readline(prompt = "Escolha um número entre 1 e 10: ")
+  if(resposta != numero_escolhido){
+   cat("Esse número é diferente do número escolhido","\n")
+  }
+  if(resposta == numero_escolhido){
+   cat("Você acertou o número escolhido","\n")
+  } 
+}
+ 
+
+```
+
+## Questão 8
+
+Elabore um algoritmo para calcular o fatorial de um número natural. Compare o resultado com o comando `factorial()`

@@ -12,7 +12,7 @@ format:
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
-    #pdf: adefault
+    pdf: default
 bibliography: references.bib
 ---
 
@@ -718,3 +718,26 @@ Use o data frame CO2 da biblioteca `dataset` para realizar as seguintes tarefas:
 3.  Calcule a média e o desvio padrão das taxas de absorção de CO2 (*uptake*) em Quebec.
 
 4.  Calcule as concentrações mínima e máxima de CO2 para as plantas que estão sob o tratamento *chilled*.
+
+## Questão 7
+
+Crie duas matrizes 2X2. Coloque uma matriz abaixo da outra. Use o comando `rbind()`. Coloque essa matriz e a matriz criada na questão 5 em uma lista.
+
+## Questão 8
+
+Crie um vetor chamado umidade com valores entre 0,4 e 1. Em seguida, junte-o com a base criada na questão 4. Use o comando `cbind()`
+
+## Questão 9
+
+Crie uma matriz 100x10. Coloque os nomes das linhas como: Linha 1, Linha 2,..., Linha 100. Faça o mesmo procedimento para a coluna. Em seguida acesse a "coluna 5" utilizando o nome da coluna. Dica: use o comando `paste()`
+
+## Questão 10
+
+Reproduzir o seguinte *data.frame*
+
+```{r echo=FALSE}
+data.frame(
+  ano = rep(2022:2024,each=12),
+  mes = rep(month.abb,times=3)
+)
+```
