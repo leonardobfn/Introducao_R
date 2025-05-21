@@ -1,14 +1,19 @@
 ---
 title: "Estrutura de dados"
+lang: pt   
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    pdf: default
+bibliography: references.bib
 ---
 
 -   No contexto da linguagem de programação R, objetos e vetores são conceitos fundamentais relacionados à manipulação de dados;

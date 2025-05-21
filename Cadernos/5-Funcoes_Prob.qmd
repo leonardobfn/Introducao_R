@@ -2,13 +2,17 @@
 title: "Funções de Probabilidade"
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
-      html-math-method: mathml
+      toc-location: right
+      html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    pdf: default
+bibliography: references.bib
 execute:
   echo: true
   message: false
@@ -195,7 +199,13 @@ plot(x, y, type = "l", lwd = 2, col = "blue",
 
     -   Gere dessas distribuições para diferentes parâmetros
 
-2.  A tabela abaixo mostra uma simulação de controle de estoque para 15 dias. Construa uma função para simular o controle de estoque. Considere:
+2.  Suponha que o tempo (em minutos) que um cliente espera para ser atendido em um banco segue uma distribuição exponencial com taxa média de atendimento $\lambda=0,2$. Calcule a probabilidade de o cliente ser atendido em menos de 3 minutos? Calcule a probabilidade de o cliente ser atendido entre 1 e 3 minutos?
+
+3.  Uma máquina em uma fábrica corta chapas metálicas de forma aleatória com um comprimento entre 45 cm e 55 cm. Assuma que o compriment X das peças segue uma distribuição uniforme. Qual é a probabilidade de uma peça ter entre 47 cm e 50 cm?
+
+4.  Um usuário tenta adivinhar a senha correta de 4 dígitos, e só existe uma combinação correta entre 10 possíveis. Considere X o número de tentativas até o primeiro sucesso. Qual é a probabilidade de acertar (sucesso) na quarta tentativa $(X=4)$? Observação: a função `dgeom(k)` retorna a probabilidade de o primeiro sucesso ocorrer na tentativa $k+1$, ou seja, $k$ representa o número de fracassos antes do primeiro sucesso. Exemplo: `dgeom(0, p) = P(acertar na 1ª tentativa)`. Qual a probabilidade de sucesso em até 2 tentativas $(X = 1$ ou $X = 2)$?
+
+5.  A tabela abaixo mostra uma simulação de controle de estoque para 15 dias. Construa uma função para simular o controle de estoque. Considere:
 
     1.  Estoque máximo: 200
 
@@ -203,11 +213,11 @@ plot(x, y, type = "l", lwd = 2, col = "blue",
 
     3.  Demanda $\sim$ Poisson$(50)$
 
-    4.  Sejam $\mbox{Prob}=$ $P(\mbox{Demanda} \geq \mbox{Estoque Final})$ e $\mbox{EDS} = \mbox{Prob} \times \mbox{estoque máximo} + \mbox{estoque final dia anterior}$ o estoque do dia seguinte.
+    4.  Sejam $\text{Prob}=$ $P(\text{Demanda} \geq \text{Estoque Final})$ e $\text{EDS} = \text{Prob} \times \text{estoque máximo} + \text{estoque final dia anterior}$ o estoque do dia seguinte.
 
     5.  O estoque do dia seguinte será preenchido considerando:
 
-        1.  Se $\mbox{Prob}>0.10$ então o estoque do dia seguinte será o mínimo entre estoque máximo e$\mbox{EDS}$, caso contrário o estoque do dia seguinte é o estoque final do dia anterior.
+        1.  Se $\text{Prob}>0.10$ então o estoque do dia seguinte será o mínimo entre estoque máximo e $\text{EDS}$, caso contrário o estoque do dia seguinte é o estoque final do dia anterior.
 
 -   Dica: no dia 1, fixe o estoque máximo e simule a demanda usando `rpois(n=1,lambda=50)`. Depois calcule a probabilidade de a demanda ser maior que o estoque final do dia 1 usando `1-ppois(Estoque final,50)`. Utilize a regra 5 para fazer os incrementos dos estoques diários
 

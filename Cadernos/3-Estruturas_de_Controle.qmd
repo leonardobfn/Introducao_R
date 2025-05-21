@@ -2,13 +2,17 @@
 title: "Estruturas de Controles"
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    pdf: default
+bibliography: references.bib
 ---
 
 # Definição

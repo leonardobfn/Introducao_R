@@ -27,6 +27,36 @@ execute:
 
 -   Define a metodologia e os princípios que guiam a escrita de código
 
+## Motivação
+
+-   **Gestão hospitalar**: extrair e resumir informações de pacientes internados em diferentes unidades (clínica médica, UTI, pediatria) sem utilizar loops
+
+    ```{r}
+
+    pacientes <- data.frame(
+      id = 1:10,
+      nome = paste("Paciente", 1:10),
+      idade = c(34, 78, 45, 2, 65, 28, 50, 1, 72, 38),
+      sexo = c("F", "M", "M", "F", "F", "M", "F", "M", "F", "M"),
+      unidade = c("Clínica Médica", "UTI", "Clínica Médica", "Pediatria", "Clínica Médica", "UTI", "UTI", "Pediatria", "Clínica Médica", "Pediatria"),
+      tempo_internacao_dias = c(5, 12, 4, 3, 7, 10, 15, 2, 9, 6),
+      desfecho = c("Alta", "Óbito", "Alta", "Alta", "Alta", "Óbito", "Alta", "Alta", "Alta", "Alta")
+    ) 
+    pacientes
+    ```
+
+-   **Análise de variáveis climáticas**: resumir informções sobre temperaturas, umidade relativa e quantidade de chuvas sem utilizar loops
+
+    ```{r}
+    dados = data.frame(
+      Temperatura = c(30,32,25,28),
+      Umidade = c(0.61,0.63,0.80,0.70)
+    ) 
+    dados
+    ```
+
+-   Resolução de um problema maior apartir m
+
 ## Programação funcional
 
 -   Toda linguagem de programação possui funções, então o que torna uma linguagem de programação funcional?
@@ -43,7 +73,7 @@ execute:
 
         -   A função não tem efeitos colaterais, como alterar o valor de uma variável global.
 
--   *Estritamente falando, R não é uma linguagem* de programação funcional porque não exige que você escreva funções puras. No entanto, você certamente pode adotar um estilo funcional em partes do seu código.
+-   *Estritamente falando, R não é uma linguagem* de programação funcional porque não exige que você escreva funções puras. No entanto, você certamente pode adotar um **estilo funcional** em partes do seu código.
 
 -   Aqui, podemos definir estilo funcional como:
 
@@ -126,7 +156,7 @@ map_dbl(mtcars, mean) # double
 
 -   Todas as funções de `map` sempre retornam um vetor de saída do mesmo comprimento que a entrada, o que implica que cada chamada `.f` deve retornar um único valor.
 
--   As funções do *map* também possuem atalhos para extrair elementos de um vetor
+-   As funções do *map* também possuem atalhos para **extrair elementos de um vetor**
 
 -   Você pode usar um vetor de caracteres para selecionar elementos por nome, um vetor inteiro para selecionar por posição ou uma lista para selecionar por nome e posição.
 

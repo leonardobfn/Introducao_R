@@ -2,13 +2,17 @@
 title: "Funções"
 format: 
     html:
+      css: teste.css
       toc: true
       toc_depth: 3
       number_sections: true
       number-depth: 3
+      toc-location: right
       html-math-method: katex
       toc-title: Sumário
       smooth-scroll: true
+    pdf: default
+bibliography: references.bib
 execute:
   echo: true
   message: false
@@ -25,12 +29,33 @@ execute:
 
 -   Dica: você deve considerar escrever uma função sempre que copiar e colar um bloco de código mais de duas vezes
 
+# Algumas funções do pacote base
+
+```{r}
+x = sample(1:5,5,replace = T) # função para selecionar 5 números entre 1 e 10. Com reposição
+x
+length(x) # comprimento x. Tamanho da amostra
+mean(x) # média de x
+var(x) # variância de x
+sd(x) # desvio padrão x
+summary(x) # algumas estatísticas de x
+table(x) # tabela de frequência
+sort(x,decreasing = F) # organizar os dados de forma crescente
+```
+
+# Criando funções
+
 -   Para definir uma função em R, você usa a palavra-chave **`function`** seguida pelos **parâmetros/argumentos** da função e o **corpo da função**
 
 ```{r}
 #| eval: false
 name <- function(arguments) {
-  body
+  body # o que a função irá realizar com os argumentos
+  return(objeto que guarda o resultado final)
+}
+ou
+name <- \(arguments) {
+  body # o que a função irá realizar com os argumentos
   return(objeto que guarda o resultado final)
 }
 ```
@@ -68,6 +93,14 @@ formals(f_x)
 body(f_x)
 environment(f_x)
 attr(f_x, "srcref")
+```
+
+```{r}
+fxy = function(x,y){
+  f_xy = exp(-(x+y))
+  return(f_xy)
+}
+fxy(x=2,y=4)
 ```
 
 -   Média de um vetor numérico
@@ -146,7 +179,7 @@ media = function(x = c(1,2,3,4)){
 media()
 ```
 
-# **Funções primitivas**
+# Funções primitivas
 
 -   Há uma exceção à regra de que uma função possui três componentes. Funções primitivas, como `sum()`e `[`, chamam o código C diretamente.
 
@@ -581,17 +614,193 @@ filtrados <- Filter(function(x) x^2 > 4, numeros)
 print(filtrados)
 ```
 
-```{r}
-integrate(function(x) exp(-x), 0, Inf)
-
-integrate(function(x) dnorm(x), -3, 3)
-```
-
 ### Vantagens das Funções Anônimas:
 
 -   **Conveniente para Operações Simples**: Funções anônimas são úteis para operações simples que não precisam ser reutilizadas em outros lugares do código.
 
 -   **Reduz Poluição do Espaço de Nomes**: Como não possuem um nome explícito, elas não poluem o espaço de nomes com funções que são usadas apenas uma vez.
+
+## Funções para calcular: integrais, derivadas e ponto de máximo ou mínimo
+
+Para calcular a integral $$\int_1^2 3 \, e^{ -3 x }dx,$$
+
+pode-se utilizar a função `integrate` :
+
+```{r}
+
+#forma 1: função anônima
+integrate(function(x) 3*exp(-3*x), 1, 2)
+
+#forma 2: 
+f_x = function(x){
+  fx = 3*exp(-3*x)
+  return(fx)
+  }
+integrate(f_x, 1,2)
+```
+
+Considere a função $f(x)=2x^2+2x+1$ e sua derivada $f^´(x)=4x+2$. Podemos utilizar o comando `D` para obter $f^´(x)$:
+
+```{r}
+f_linha = D(expression(2*x^2+2*x+1),"x") 
+x = 2
+eval(f_linha) # avaliando a derivada no ponto x=2
+```
+
+Outra forma
+
+```{r}
+f_deriv = deriv3(expression(2*x^2+2*x+1),"x",function.arg = T) 
+f_deriv(2)
+```
+
+-   `f_deriv(2)` é o valor da função no ponto ( x = 2 ):\
+    $$
+    f(2) = 2 \cdot 2^2 + 2 \cdot 2 + 1 = 8 + 4 + 1 = 13
+    $$
+
+-   `attr(f_deriv(2), "gradient")` é a primeira derivada no ponto ( x = 2 ):\
+    $$
+    f'(x) = 4x + 2 \quad \Rightarrow \quad f'(2) = 4 \cdot 2 + 2 = 10
+    $$
+
+-   `attr(f_deriv(2), "hessian")` é a segunda derivada (constante):\
+    $$
+    f''(x) = 4
+    $$
+
+Também podemos encontrar o ponto de máximo e mínimo de uma função através do comando `optimise.`
+
+Encontrando o valor de $x$ que minimza a função $f(x)=2x^2 + 2x+1$
+
+```{r}
+# criando a função 
+f_x = function(x){
+  fx =2*x^2 + 2*x+1
+  return(fx)
+}
+
+# #forma 1
+
+# min_x = optimise(f_x,maximum = F,interval = c(-100,100)) # encontrando o valor de x que minimza a função 2*x^2 + 2*x+1
+
+# #forma 2
+min_x = optimise(function(x){2*x^2 + 2*x+1}, #função anônima
+                 maximum = F,
+                 interval = c(-100,100)
+                 ) # encontrando o valor de x que minimza a função 2*x^2 + 2*x+1
+
+min_x
+
+f_x(min_x$minimum) # valor aplicado no ponto
+
+x = seq(-20,20,0.5) # criando uma sequência
+
+plot(
+  x,
+  f_x(x),
+  xlab = "x",
+  ylab = "f(x)",
+  col = ifelse(x == min_x$minimum, "red", "black")
+  ) # plotando o gráfico de x por f(x)
+
+
+abline(v=min_x$minimum,h =f_x(min_x$minimum) ) # identificando os pontos
+
+```
+
+Encontrando o valor de $x$ que maximiza a função $g(x)=-6x^2 + 5x+1$
+
+```{r}
+g_x = function(x){
+  gx =-6*x^2 + 5*x+1
+  return(gx)
+}
+
+# #forma 1
+# max_x = optimise(g_x,
+#                  maximum = T,
+#                  interval = c(-100,100)) # encontrando o valor de x que maximiza a função -6*x^2 + 5*x+1
+
+#forma 2
+max_x = optimise(function(x){-6*x^2 + 5*x+1},  #função anônima
+                 maximum = T,
+                 interval = c(-100,100)) # encontrando o valor de x que maximiza a função -6*x^2 + 5*x+1
+
+
+
+max_x
+
+g_x(max_x$maximum) # valor aplicado no ponto
+
+x = seq(-20,20,0.5) |> c(max_x$maximum) |> sort() # criando uma sequência
+
+plot(
+  x,
+  g_x(x),
+  xlab = "x",
+  ylab = "g(x)",
+  col = ifelse(x == max_x$maximum, "red", "black")
+  ) # plotando o gráfico de x por g(x)
+
+
+abline(v=max_x$maximum,h =f_x(max_x$maximum) ) # identificando os pontos
+
+
+```
+
+Encontrando os valores de $x$ e $y$ que maximizam a função $f(x,y)=-(x-1)^2-(y+2)^2$.
+
+```{r}
+fxy <- function(vetor) {
+  x <- vetor[1]
+  y <- vetor[2]
+  -( (x - 1)^2 + (y + 2)^2  )
+}
+
+ponto_max = optim(par = c(0,0), # valores iniciais
+      fn = fxy,
+      control = list(fnscale=-1) # para encontrar o ponto de máximo:fnscale=-1
+      )
+ponto_max
+
+x = y = seq(-10,10,0.5) # criando uma sequência de pontos
+length(x)
+
+f_xy = outer(x,
+             y,
+             function(x, y) {
+               -((x - 1) ^ 2 + (y + 2) ^ 2)
+             })
+
+# gráfico 3d
+
+super = persp(
+  x,
+  y,
+  f_xy,
+  col = "lightblue", # cor da superfície 
+  shade = 0.4,
+  ticktype = "detailed", # colocar os números nos eixos
+  xlab = "x",
+  ylab = "y",
+  zlab = "f(x, y)",
+  phi = 30, # rotacionar a imagem
+  theta = -30, # rotacionar a imagem
+)
+
+x0 = ponto_max$par[1]
+y0 = ponto_max$par[2]
+z0 = ponto_max$value # fxy(c(x0,y0))
+
+# Converte o ponto (x0, y0, z0) para coordenadas 3d
+ponto <- trans3d(x0, y0, z0, super)
+
+# Adiciona o ponto no gráfico
+points(ponto, col = "red", pch = 19, cex = 1.5)
+# Adiciona um texto com coordenadas
+text(ponto, labels = "(x=1, y=-2,f(x,y)=0)", pos = 3, col = "red")
+```
 
 # Lista de funções
 
@@ -620,7 +829,31 @@ funs$mult(10)
 
 6.  Crie um exemplo usando a função try. Se for erro, atribua NaN ao objeto da class try-error e imprima mensagem de erro
 
-    \
+7.  Escreva funções para:
+
+    1.  Calcular área do quadrado. Use "lado" como argumento da função.
+
+    2.  Calcular área do triângulo. Use a "base" e "altura" como argumentos da função
+
+    3.  Calcular área, perímetro e diâmetro do círculo. Use "raio" como argumento da função. Retorne um data frame com a primeira coluna tendo os nomes das medidas e a segunda coluna os respectivos valores.
+
+8.  Crie a seguinte função:
+
+    1.  argumentos:
+
+        -   nome: o nome do aluno;
+        -   notas_parciais: notas das provas parciais;
+        -   nota\_\_prova_final: nota da prova final;
+
+    2.  Código dentro da função:
+
+        1.  $\text{MEE}=\text{média das notas parciais}$
+
+        2.  $MF=\dfrac{2 \times \text{MEE} + \text{nota\_prova\_final}}{3}$
+
+        3.  Se $MF>5$ então aluno aprovado, caso contrário reprovado
+
+    3.  Retornar como resultado final uma lista contendo: nome do aluno, média final , situação de aprovado ou reprovado, notas parciais e nota prova final
 
 # Referências
 
